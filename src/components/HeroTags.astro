@@ -1,0 +1,6 @@
+---
+import { heroTags } from '../content/extra';
+interface Props { mobile?: boolean }
+const { mobile = false } = Astro.props;
+---
+<ul class:list={['hero-tags', mobile ? 'm-only' : 'd-only']} aria-label="VSM at a glance" aria-hidden={mobile ? undefined : undefined}>{heroTags.map((t, i) => <li style={`--i:${i}`}><strong>{t.big}</strong><span>{t.small}</span></li>)}</ul>

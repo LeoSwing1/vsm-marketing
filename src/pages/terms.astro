@@ -1,0 +1,22 @@
+---
+import Legal from '../components/Legal.astro';
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<Legal title="Terms of service" description="Terms for using vsmgrowth.com and for VSM Marketing's monthly plans and projects." updated="21 November 2026">
+  <p>These terms apply to vsmgrowth.com and to services from VSM Marketing. Each client also receives a written plan or proposal; if that document says something different, the written plan wins.</p>
+  <h2>Monthly plans</h2>
+  <ul><li>Plans are billed monthly in advance. Prices on this site exclude 18% GST.</li><li>There is no lock-in. Either side can stop a plan with 15 days' written notice (WhatsApp or email counts); it ends at the close of the next billing month.</li><li>Ad budgets are paid by the client directly to Meta or Google and are not part of our fee.</li></ul>
+  <h2>Projects</h2>
+  <p>Websites, brand films and one-off shoots are quoted separately. The quote states scope, timeline and payment milestones.</p>
+  <h2>Ownership</h2>
+  <p>Once paid for, the final content, website code, domains and ad accounts belong to the client. We may show finished work and results in our portfolio unless you ask us not to in writing.</p>
+  <h2>Approvals and timelines</h2>
+  <p>Timelines depend on timely approvals and access from the client. Delays in approvals move delivery dates by the same amount.</p>
+  <h2>Results</h2>
+  <p>We commit to the work in the plan and honest reporting. Reach, leads and sales depend on many factors outside our control, so we do not guarantee specific numbers.</p>
+  <h2>Law</h2>
+  <p>These terms are governed by Indian law, with courts in Meerut, Uttar Pradesh having jurisdiction.</p>
+  <h2>Contact</h2>
+  <p><a href={`mailto:${s.email}`}>{s.email}</a> · {s.phoneDisplay}</p>
+</Legal>

@@ -1,0 +1,108 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Splash from '../components/Splash.astro';
+import WhatsAppFab from '../components/WhatsAppFab.astro';
+import { getSite } from '../lib/content';
+
+interface Props { title: string; description: string; image?: string; schema?: object; home?: boolean }
+const { title, description, image = '/og-image.jpg', schema, home = false } = Astro.props;
+const site = await getSite();
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const GA4 = import.meta.env.PUBLIC_GA4_ID as string | undefined;
+const GSC = import.meta.env.PUBLIC_GSC_VERIFICATION as string | undefined;
+
+const hours = [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '10:00', closes: '19:00' }];
+const geo: Record<string, [number, number]> = { Meerut: [28.9845, 77.7064], Noida: [28.6270, 77.3727] };
+const knows = ['Digital marketing', 'Social media marketing', 'Instagram reels', 'Video production', 'Meta Ads', 'Google Ads', 'SEO', 'Local SEO', 'Google Business Profile', 'Website development', 'App development', 'Public relations'];
+const org = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': 'https://vsmgrowth.com/#org', name: 'VSM Marketing', alternateName: 'VSM Growth', url: 'https://vsmgrowth.com/',
+      logo: { '@type': 'ImageObject', url: 'https://vsmgrowth.com/vsm-logo-512.png', width: 512, height: 512 }, image: 'https://vsmgrowth.com/og-image.jpg', foundingDate: '2021', taxID: site.gstin,
+      founder: [{ '@type': 'Person', name: 'Vishant Malik' }, { '@type': 'Person', name: 'Sushant Malik' }], knowsAbout: knows,
+      contactPoint: { '@type': 'ContactPoint', telephone: site.phone, email: site.email, contactType: 'sales', areaServed: 'IN', availableLanguage: ['en', 'hi'] },
+      telephone: site.phone, email: site.email, sameAs: [site.gmb, site.instagram, site.facebook] },
+    { '@type': 'WebSite', '@id': 'https://vsmgrowth.com/#website', url: 'https://vsmgrowth.com/', name: 'VSM Marketing', inLanguage: 'en-IN', publisher: { '@id': 'https://vsmgrowth.com/#org' } },
+    ...site.offices.map((o) => ({
+      '@type': ['ProfessionalService', 'LocalBusiness'], '@id': `https://vsmgrowth.com/#${o.city.toLowerCase()}`, name: `VSM Marketing, ${o.city}`, description: `Digital marketing agency in ${o.city}: reels, ads, SEO, websites and software.`,
+      url: 'https://vsmgrowth.com/', image: 'https://vsmgrowth.com/og-image.jpg', logo: 'https://vsmgrowth.com/vsm-logo-512.png', parentOrganization: { '@id': 'https://vsmgrowth.com/#org' },
+      telephone: site.phone, email: site.email, priceRange: '₹₹', currenciesAccepted: 'INR', paymentAccepted: 'UPI, Bank transfer', openingHoursSpecification: hours,
+      hasMap: o.city === 'Meerut' ? site.gmb : o.maps, sameAs: [site.gmb, site.instagram, site.facebook], knowsAbout: knows,
+      areaServed: ['Meerut', 'Noida', 'Greater Noida', 'Ghaziabad', 'Delhi', 'Muzaffarnagar', 'Hapur', 'Modinagar'].map((n) => ({ '@type': 'City', name: n })),
+      geo: geo[o.city] ? { '@type': 'GeoCoordinates', latitude: geo[o.city][0], longitude: geo[o.city][1] } : undefined,
+      address: { '@type': 'PostalAddress', streetAddress: o.lines[0], addressLocality: o.city, addressRegion: 'Uttar Pradesh', postalCode: o.lines[1]?.match(/\d{6}/)?.[0], addressCountry: 'IN' },
+    })),
+  ],
+};
+// Sitewide breadcrumb from the URL path
+const parts = Astro.url.pathname.split('/').filter(Boolean);
+const label = (x: string) => x.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+const crumbs = parts.length ? { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ name: 'Home', path: '/' }, ...parts.map((p, i) => ({ name: i === parts.length - 1 ? title.split('|')[0].trim() : label(p), path: '/' + parts.slice(0, i + 1).join('/') + '/' }))].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.path, Astro.site).href })) } : null;
+const noindex = Astro.url.pathname.startsWith('/404');
+---
+<!DOCTYPE html>
+<html lang="en-IN" data-home={home ? '1' : undefined}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="sitemap" href="/sitemap-index.xml">
+  <meta name="theme-color" content="#111110">
+  <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'}>
+  <link rel="alternate" hreflang="en-IN" href={canonical}><link rel="alternate" hreflang="x-default" href={canonical}>
+  <meta name="geo.region" content="IN-UP"><meta name="geo.placename" content="Meerut, Noida"><meta name="geo.position" content="28.9845;77.7064"><meta name="ICBM" content="28.9845, 77.7064">
+  <meta name="author" content="VSM Marketing">
+  <meta property="og:type" content="website"><meta property="og:locale" content="en_IN"><meta property="og:site_name" content="VSM Marketing">
+  <meta property="og:url" content={canonical}><meta property="og:title" content={title}><meta property="og:description" content={description}>
+  <meta property="og:image" content={ogImage}><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content={title}><meta name="twitter:description" content={description}><meta name="twitter:image" content={ogImage}><meta property="og:image:alt" content="VSM Marketing — digital marketing agency, Meerut & Noida">
+  {GSC && <meta name="google-site-verification" content={GSC}>}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json" set:html={JSON.stringify(org)} />
+  {crumbs && <script type="application/ld+json" set:html={JSON.stringify(crumbs)} />}
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  <script is:inline>
+    (function () {
+      var d = document.documentElement; d.classList.add('js');
+      try {
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // splash only on the homepage, on every full load or refresh
+        if (d.getAttribute('data-home') === '1' && !reduce && !/[?&]nosplash/.test(location.search)) d.classList.add('splash');
+      } catch (e) {}
+    })();
+  </script>
+  {GA4 && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4}`}></script>
+      <script is:inline define:vars={{ GA4 }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', GA4, { send_page_view: false });
+      </script>
+    </>
+  )}
+  <ClientRouter />
+</head>
+<body>
+  <a href="#main" class="skip">Skip to content</a>
+  <Splash />
+  <div class="progress" aria-hidden="true"></div>
+  <Header />
+  <main id="main" transition:name="main">
+    <slot />
+  </main>
+  <Footer />
+  <WhatsAppFab />
+  <script>import '../scripts/main';</script>
+</body>
+</html>

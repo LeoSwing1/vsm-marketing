@@ -1,0 +1,29 @@
+---
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<footer class="footer">
+  <div class="footer-top">
+    <p class="eyebrow">Have a good one in mind?</p>
+    <h2 class="split">Let's make<br><em>something move.</em></h2>
+    <a class="round-link magnetic" href="/contact/" aria-label="Contact VSM" data-cursor="Talk">↗</a>
+  </div>
+  <div class="footer-bottom">
+    <a class="wordmark" href="/" aria-label="VSM Marketing, home"><img src="/vsm-logo.svg" alt="VSM Marketing" width="210" height="106" loading="lazy" /></a>
+    <p>Digital marketing, creative and growth.<br>{s.offices.map((o) => `${o.city} ${o.label.toLowerCase()}`).join(' · ')}<br>Serving brands across India.</p>
+    <div class="links">
+      <a href={s.instagram} target="_blank" rel="noopener">Instagram ↗</a>
+      <a href={s.gmb} target="_blank" rel="noopener" data-track="gmb_open">Google Business Profile ↗</a>
+      <a href={`https://wa.me/${s.whatsapp}`} target="_blank" rel="noopener">WhatsApp ↗</a>
+      <a href={`mailto:${s.email}`}>{s.email}</a>
+    </div>
+    <div class="links">
+      <a href="/services/">Services</a><a href="/work/">Work</a><a href="/studio/">Studio</a>
+      <a href="/digital-marketing-agency-meerut/">Meerut</a><a href="/digital-marketing-agency-noida/">Noida</a><a href="/digital-marketing-agency-ghaziabad/">Ghaziabad</a><a href="/digital-marketing-agency-delhi/">Delhi</a>
+    </div>
+    <div class="links">
+      <a href="/privacy-policy/">Privacy</a><a href="/terms/">Terms</a><a href="/refund-policy/">Refunds</a>
+    </div>
+    <small>© {new Date().getFullYear()} VSM Marketing<br>GSTIN {s.gstin}</small>
+  </div>
+</footer>

@@ -1,0 +1,8 @@
+---
+import { topicHref } from '../content/topics';
+interface Props { service: string; tags: string[]; style?: string }
+const { service, tags, style } = Astro.props;
+---
+<div class="tag-list tag-links" style={style}>
+  {tags.map((t) => { const h = topicHref(service, t); return h ? <a href={h}>{t} <i aria-hidden="true">↗</i></a> : <span>{t}</span>; })}
+</div>

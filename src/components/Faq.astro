@@ -1,0 +1,11 @@
+---
+interface Props { items: { q: string; a: string }[]; title?: string; dark?: boolean; n?: string }
+const { items, title = 'Questions, answered.', dark = false, n = '08' } = Astro.props;
+const [a, b] = title.split(', ');
+---
+<section class:list={['section-pad', { dark }]} id="faq">
+  <div class="faq-grid">
+    <div><p class="eyebrow">{n} / FAQ</p><h2 class="big-h split" style="margin-top:28px">{b ? <>{a},<br><em>{b}</em></> : title}</h2></div>
+    <div class="faq">{items.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+  </div>
+</section>

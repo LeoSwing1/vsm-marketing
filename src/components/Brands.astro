@@ -1,0 +1,10 @@
+---
+import { brands, badges } from '../content/extra';
+import Icon from './Icon.astro';
+---
+<section class="section-pad brands" data-spot-wall>
+  <p class="eyebrow center"><span class="dot"></span>Trusted by</p>
+  <h2 class="brands-title split">Brands we've <em>grown.</em></h2>
+  <ul class="brand-wall">{brands.map((b) => <li>{b}</li>)}</ul>
+  <ul class="trust-row">{badges.slice(0, 4).map((b) => <li><Icon name={b.icon} size={18} />{b.title}</li>)}</ul>
+</section>

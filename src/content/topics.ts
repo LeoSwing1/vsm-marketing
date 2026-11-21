@@ -1,0 +1,268 @@
+/**
+ * Sub-service pages: one per tag, at /services/<service>/<topic>/.
+ * Keyed by service slug; `name` must match the tag text in site.ts so tags link to their page.
+ */
+export interface Topic {
+  slug: string; name: string; title: string; intro: string;
+  includes: string[]; steps: [string, string][]; forWho: string[]; faqs: [string, string][];
+}
+
+export const topics: Record<string, Topic[]> = {
+  'social-media': [
+    {
+      slug: 'reels-strategy', name: 'Reels strategy', title: 'Reels that stop the scroll and bring people in',
+      intro: 'A reel has about two seconds to earn the next ten. We plan hooks, formats and series around what your customers already search and share, then track which reels bring profile visits, DMs and walk-ins, not just views.',
+      includes: ['Competitor and trend audit for your category', '3–5 repeatable reel formats (series) for your brand', 'Hook bank: 30+ opening lines in Hinglish and English', 'Monthly reel calendar with scripts', 'Audio, caption and cover guidelines', 'Monthly report on watch time, shares and enquiries'],
+      steps: [['Study what works', 'We pull the top reels in your niche and city and break down hooks, length, pacing and calls to action.'], ['Pick your formats', 'Interviews, before/after, behind-the-scenes, offers, myths: we choose 3–5 formats you can repeat every week.'], ['Script and shoot', 'Each reel gets a hook, beats and an ending that asks for one action, shot by our crew.'], ['Read the numbers', 'Hook rate, average watch, shares and DMs decide which formats get more airtime next month.']],
+      forWho: ['Shops and showrooms that need footfall', 'Restaurants, cafes and salons', 'Brands stuck at a few hundred views', 'Founders willing to be on camera'],
+      faqs: [['How many reels a month do we need?', 'Four to eight is a good start for most local businesses. Consistency matters more than volume.'], ['Will reels go viral?', 'Some will travel further than others. We plan for steady reach and enquiries, and treat a viral reel as a bonus, not a promise.']],
+    },
+    {
+      slug: 'video-production', name: 'Video production', title: 'In-house video production, from script to final cut',
+      intro: 'Our own crew scripts, shoots and edits everything: reels, ads, testimonials and films. No outside vendor, no waiting, and every cut is made for the platform it will run on.',
+      includes: ['Concept, script and shot list', 'Crew with cinema cameras, gimbals, lights and wireless audio', 'Shoot at your location anywhere in Delhi NCR', 'Editing, colour, captions, music and sound', 'Motion graphics and AI-assisted scenes', 'Exports in 9:16, 1:1 and 16:9'],
+      steps: [['Brief', 'What should the viewer feel and do? We agree purpose, audience and where it will run.'], ['Pre-production', 'Script, shot list, props, talent and a call sheet so the day runs on time.'], ['Shoot day', 'One day usually covers a month of reels plus stills.'], ['Post-production', 'Edit, two rounds of changes, and final files for organic posts and ads.']],
+      forWho: ['Brands that need monthly content', 'Product launches and campaigns', 'Hotels, showrooms and clinics', 'Founders building a personal brand'],
+      faqs: [['How long does a shoot take?', 'Most monthly shoots take 4–6 hours on location. Brand films can take a full day or two.'], ['Do we get the raw footage?', 'Final edits are always yours. Raw footage can be handed over on request.']],
+    },
+    {
+      slug: 'brand-films', name: 'Brand films', title: 'Brand films that make people trust you before they meet you',
+      intro: 'A 60–180 second film that tells who you are, why you started and why customers stay. Ideal for your website, YouTube, investor decks and ads, with short cut-downs for reels.',
+      includes: ['Story development and interview questions', 'Founder and team interviews', 'B-roll of your space, process and customers', 'Music licensing and sound design', 'One main film plus 3–5 short cut-downs', 'Subtitles in English and Hindi'],
+      steps: [['Find the story', 'A call with the founder to find the moment, the struggle and the promise worth filming.'], ['Plan the film', 'Treatment, script outline, locations and a shoot schedule.'], ['Film', 'Interviews and cinematic B-roll over one or two days.'], ['Cut and deliver', 'Main film, reels cut-downs and subtitles, with two rounds of changes.']],
+      forWho: ['Businesses with a story worth telling', 'Hotels, schools and institutes', 'Manufacturers explaining what they make', 'Brands raising their price point'],
+      faqs: [['How long should a brand film be?', 'Usually 60–120 seconds for the web, with 15–30 second versions for social and ads.'], ['Can we use it in ads?', 'Yes. We plan cut-downs for Meta and YouTube ads from the same shoot.']],
+    },
+    {
+      slug: 'product-shoots', name: 'Product shoots', title: 'Product photos and videos that sell from the first scroll',
+      intro: 'Clean catalogue shots, styled lifestyle images and short product videos for your store, marketplaces, Instagram and ads, lit and edited in-house.',
+      includes: ['White-background catalogue photography', 'Styled lifestyle and flat-lay shots', 'Short product videos and 360° spins', 'Model shoots for fashion and jewellery', 'Retouching and colour correction', 'Marketplace-ready sizes (Amazon, Flipkart, Meesho)'],
+      steps: [['Shot list', 'We list every product, angle and use: store, ads or social.'], ['Styling', 'Props, backgrounds and models chosen to match your brand.'], ['Shoot', 'Studio or on location with controlled lighting.'], ['Edit & deliver', 'Retouched images and videos sized for every channel.']],
+      forWho: ['E-commerce and D2C brands', 'Jewellers, opticians and boutiques', 'Bakeries, cafes and FMCG', 'Manufacturers making catalogues'],
+      faqs: [['How many products can you shoot in a day?', 'Typically 30–60 catalogue products, or 10–15 with styled lifestyle setups.'], ['Do you provide models?', 'Yes, we can arrange models and stylists for fashion, jewellery and beauty shoots.']],
+    },
+    {
+      slug: 'content-calendar', name: 'Content calendar', title: 'A month of content, planned before it starts',
+      intro: 'No more "what do we post today?". Every month you get a dated calendar of posts, reels and stories, built on content pillars, festivals, offers and what worked last month.',
+      includes: ['3–4 content pillars for your brand', 'Dated monthly calendar (posts, reels, stories)', 'Festival and season planning', 'Captions and hashtags written in advance', 'Approval flow on WhatsApp', 'Monthly review and next-month plan'],
+      steps: [['Pillars', 'Offers, proof, behind-the-scenes, education: the themes your brand repeats.'], ['Plan', 'A calendar mapped to dates, festivals and launches.'], ['Approve', 'You review the month in one go on WhatsApp.'], ['Publish & review', 'We post on schedule and adjust next month from the data.']],
+      forWho: ['Teams posting without a plan', 'Brands with seasonal peaks', 'Owners short on time', 'Multi-branch businesses'],
+      faqs: [['Can we add last-minute posts?', 'Yes. The calendar leaves room for offers and news that come up mid-month.'], ['Who writes the captions?', 'We do, in your tone, in English, Hindi or Hinglish.']],
+    },
+    {
+      slug: 'community-management', name: 'Community management', title: 'Every comment answered, every DM followed up',
+      intro: 'Most enquiries on Instagram die in the DMs. We reply to comments and messages the same day, answer FAQs in your tone and hand warm leads to your team on WhatsApp.',
+      includes: ['Same-day replies to comments and DMs', 'Saved replies for prices, timings and location', 'Lead hand-off to your WhatsApp or CRM', 'Negative comment handling', 'Story replies and mentions', 'Monthly enquiry report'],
+      steps: [['Reply guide', 'Your tone, FAQs and what never to say, agreed in advance.'], ['Daily inbox', 'Comments and DMs checked through the day.'], ['Hand-off', 'Serious buyers go straight to your sales person with context.'], ['Report', 'Enquiries, response time and common questions every month.']],
+      forWho: ['Brands getting lots of DMs', 'Salons and clinics taking bookings', 'E-commerce answering order questions', 'Owners who can\'t reply all day'],
+      faqs: [['Will you close sales in DMs?', 'We qualify and hand over; your team closes. We can share price lists if you approve them.'], ['What about angry comments?', 'We follow your escalation rules and flag anything serious to you immediately.']],
+    },
+  ],
+  'meta-google-ads': [
+    {
+      slug: 'meta-ads', name: 'Meta Ads', title: 'Facebook and Instagram ads that pay for themselves',
+      intro: 'Meta Ads reach people near you before they search. We build campaigns around one goal (leads, messages, bookings or sales), test creatives fast and move budget to what works.',
+      includes: ['Pixel and Conversions API setup', 'Audience and location targeting', 'Reel, static and carousel creatives', 'Lead forms and click-to-WhatsApp ads', 'Daily optimisation and weekly reports', 'Retargeting and lookalikes'],
+      steps: [['Tracking first', 'Pixel, CAPI and events fixed so results are measured right.'], ['Offer & audience', 'What we sell, to whom, within which pin codes.'], ['Test', 'Several creatives and audiences on a small budget.'], ['Scale', 'Budget moves to the winners; losers stop within days.']],
+      forWho: ['Local businesses needing leads', 'Salons, clinics and institutes', 'E-commerce with a catalogue', 'Anyone "boosting posts" today'],
+      faqs: [['What budget should we start with?', 'Most local campaigns start at ₹300–1,000 a day. We size it to your lead value and area.'], ['How soon do results come?', 'First leads usually come in the first week; costs stabilise in 2–3 weeks.']],
+    },
+    {
+      slug: 'google-ads', name: 'Google Ads', title: 'Show up the moment someone searches for you',
+      intro: 'Google Ads catch people who are already looking. We bid on high-intent keywords, block wasted searches and send clicks to pages built to convert.',
+      includes: ['Keyword research by intent', 'Search, Performance Max and YouTube', 'Negative keyword lists', 'Call and location extensions', 'Conversion tracking with GA4', 'Weekly search-term cleanup'],
+      steps: [['Keywords', 'What buyers type, including Hinglish and "near me" searches.'], ['Structure', 'Tight ad groups with matching ads and landing pages.'], ['Launch', 'Controlled budgets with call and form tracking.'], ['Refine', 'Weekly search-term review and bid changes.']],
+      forWho: ['Service businesses (repairs, clinics, real estate)', 'Institutes and coaching', 'B2B manufacturers', 'Stores with high-intent products'],
+      faqs: [['Google or Meta?', 'Google catches demand, Meta creates it. Most businesses do best with both, weighted to their category.'], ['Do you charge a percentage of spend?', 'No. Our fee is flat; you pay Google directly.']],
+    },
+    {
+      slug: 'lead-generation', name: 'Lead generation', title: 'A steady pipeline of enquiries you can actually close',
+      intro: 'Leads are only useful if they pick up the phone. We build funnels that qualify people before they reach you, and track every lead from ad to sale.',
+      includes: ['Offer and funnel design', 'Qualifying lead forms', 'Landing pages built for one action', 'Instant WhatsApp/SMS follow-up', 'Lead sheet or CRM integration', 'Cost per qualified lead reporting'],
+      steps: [['Define a good lead', 'Budget, location, timeline: what makes a lead worth calling.'], ['Build the funnel', 'Ad → form or page → instant follow-up.'], ['Route leads', 'Straight to your team\'s WhatsApp, sheet or CRM.'], ['Improve quality', 'Your feedback on lead quality tunes targeting every week.']],
+      forWho: ['Real estate and builders', 'Education and coaching', 'Clinics and salons', 'B2B and services'],
+      faqs: [['What about junk leads?', 'We add qualifying questions and filters, and track which sources bring real buyers.'], ['Can leads come into our CRM?', 'Yes: Zoho, Google Sheets, or a custom system.']],
+    },
+    {
+      slug: 'retargeting', name: 'Retargeting', title: 'Bring back the people who almost bought',
+      intro: 'Most visitors leave without acting. Retargeting shows them the right reminder: a review, an offer or a product they viewed, at a fraction of the cost of new reach.',
+      includes: ['Website and Instagram engager audiences', 'Video viewer audiences', 'Dynamic product ads for stores', 'Offer and testimonial creatives', 'Frequency caps so ads don\'t annoy', 'Lookalikes from your best customers'],
+      steps: [['Build audiences', 'Visitors, viewers, engagers and past customers.'], ['Match the message', 'Proof for the unsure, offers for the almost-ready.'], ['Cap frequency', 'Enough to remind, never enough to irritate.'], ['Measure lift', 'Conversions from returning visitors tracked separately.']],
+      forWho: ['E-commerce stores', 'High-ticket services', 'Websites with traffic but few enquiries', 'Brands running video ads'],
+      faqs: [['Is retargeting expensive?', 'Usually the cheapest results in an account, because the audience already knows you.'], ['Do we need a website?', 'It helps, but we can retarget Instagram and video engagers without one.']],
+    },
+    {
+      slug: 'whatsapp-funnels', name: 'WhatsApp funnels', title: 'Ads that start a WhatsApp chat, not a cold form',
+      intro: 'In India, people would rather chat than fill a form. Click-to-WhatsApp ads open a conversation with a ready message, and automated replies qualify the lead before your team picks it up.',
+      includes: ['Click-to-WhatsApp ad campaigns', 'Pre-filled opening messages', 'Auto-replies with menus and FAQs', 'Lead tagging and labels', 'Broadcast follow-ups (opt-in)', 'Chat-to-sale tracking'],
+      steps: [['Set up WhatsApp Business', 'Catalogue, labels and quick replies.'], ['Launch chat ads', 'Ads that open WhatsApp with a message ready.'], ['Automate the first reply', 'Menus answer basics and capture details.'], ['Follow up', 'Your team closes; we track which ads bring buyers.']],
+      forWho: ['Local stores and showrooms', 'Food, bakery and cafes', 'Coaching and institutes', 'Anyone who sells over chat'],
+      faqs: [['Do we need the WhatsApp API?', 'Not to start. WhatsApp Business works; the API helps at higher volume.'], ['Can you track sales from chats?', 'Yes, with labels and a simple sheet or CRM link.']],
+    },
+  ],
+  seo: [
+    {
+      slug: 'technical-seo', name: 'Technical SEO', title: 'Fix what stops Google from ranking your site',
+      intro: 'Great content can\'t rank on a broken site. We fix speed, indexing, mobile issues, duplicates and structured data so every page has a fair chance.',
+      includes: ['Full site crawl and audit', 'Core Web Vitals and speed fixes', 'Indexing and sitemap cleanup', 'Redirects and broken links', 'Schema (LocalBusiness, Product, FAQ)', 'Search Console monitoring'],
+      steps: [['Crawl', 'Every URL checked for errors, duplicates and speed.'], ['Prioritise', 'Fixes ranked by impact and effort.'], ['Fix', 'We implement or brief your developer.'], ['Monitor', 'Search Console and speed tracked monthly.']],
+      forWho: ['Sites that don\'t show on Google', 'E-commerce with many pages', 'Sites rebuilt or migrated recently', 'WordPress sites slowed by plugins'],
+      faqs: [['Do you need website access?', 'Yes, or we work alongside your developer with a clear fix list.'], ['Will speed fixes break the design?', 'No. We test on staging before anything goes live.']],
+    },
+    {
+      slug: 'local-seo', name: 'Local SEO', title: 'Be the first name in "near me" searches',
+      intro: 'For local businesses, the map pack is the front door. Local SEO gets you into the top three on Google Maps for the searches that bring calls and visits.',
+      includes: ['Google Business Profile optimisation', 'Local keyword and category research', 'Location and service pages', 'NAP consistency across directories', 'Review generation routine', 'Map ranking reports by area'],
+      steps: [['Audit', 'Your profile, competitors and current map rankings.'], ['Optimise', 'Profile, website pages and directory listings aligned.'], ['Reviews', 'A simple routine to earn steady reviews.'], ['Track', 'Calls, directions and rankings across your area.']],
+      forWho: ['Shops, clinics and salons', 'Restaurants and hotels', 'Service businesses with a service area', 'Multi-branch businesses'],
+      faqs: [['How long until we show in Maps?', 'Often 4–8 weeks for visible movement, depending on competition.'], ['Do fake reviews help?', 'No. They risk suspension. We build real reviews from real customers.']],
+    },
+    {
+      slug: 'keyword-strategy', name: 'Keyword strategy', title: 'Rank for what buyers type, not what sounds impressive',
+      intro: 'We find the searches that bring paying customers, in English and Hinglish, and map each one to the right page so your pages stop competing with each other.',
+      includes: ['Keyword research by intent', 'Competitor gap analysis', 'Keyword-to-page map', 'Content briefs for new pages', 'Internal linking plan', 'Ranking tracker setup'],
+      steps: [['Research', 'Seed terms, competitors and real search data.'], ['Sort by intent', 'Buy, compare or learn: each needs a different page.'], ['Map', 'One primary keyword per page, no cannibalisation.'], ['Brief', 'Clear briefs for new and updated pages.']],
+      forWho: ['Sites with traffic but no enquiries', 'New websites planning content', 'E-commerce categories', 'Service businesses in competitive cities'],
+      faqs: [['How many keywords will you target?', 'Usually 30–100 mapped to pages, prioritised by value.'], ['Do you write the content?', 'Yes, or we brief your team.']],
+    },
+    {
+      slug: 'google-business-profile', name: 'Google Business Profile', title: 'Turn your Google listing into phone calls',
+      intro: 'Your Google Business Profile is often seen more than your website. We set it up properly and keep it active with photos, posts, products and replies.',
+      includes: ['Categories, services and attributes', 'Photos and video uploads', 'Weekly posts and offers', 'Products and menu setup', 'Q&A seeding and replies', 'Review replies'],
+      steps: [['Verify & clean', 'Ownership, duplicates and correct details.'], ['Complete', 'Every field, service and attribute filled.'], ['Keep active', 'Weekly posts, photos and replies.'], ['Measure', 'Calls, directions and website clicks every month.']],
+      forWho: ['Every local business', 'Restaurants, clinics and stores', 'New businesses without reviews', 'Businesses with a suspended or messy listing'],
+      faqs: [['Can you fix a suspended profile?', 'We prepare the reinstatement request and evidence; Google decides.'], ['How often should we post?', 'Once or twice a week keeps the profile fresh.']],
+    },
+  ],
+  'web-development': [
+    {
+      slug: 'landing-pages', name: 'Landing pages', title: 'One page, one offer, one action',
+      intro: 'Ads perform better when they land on a page made for them. We build fast landing pages that say one thing clearly and make enquiring effortless.',
+      includes: ['Copy written for the offer', 'Mobile-first design', 'WhatsApp, call and form actions', 'Pixel and GA4 events', 'A/B test variants', 'Loads in under 2 seconds'],
+      steps: [['Offer & audience', 'Who lands here and what they need to believe.'], ['Copy & layout', 'Headline, proof, offer and action in that order.'], ['Build', 'Fast, tracked and tested on real phones.'], ['Test', 'Variants tested against conversion rate.']],
+      forWho: ['Ad campaigns', 'Event and admission drives', 'Product launches', 'Seasonal offers'],
+      faqs: [['How fast can you build one?', 'Usually 3–5 working days once the offer is clear.'], ['Can it live on our domain?', 'Yes, as a page or subdomain on your site.']],
+    },
+    {
+      slug: 'e-commerce', name: 'E-commerce', title: 'Online stores that are easy to buy from',
+      intro: 'WooCommerce or custom stores with clear product pages, quick checkout, Razorpay and COD, and everything you need to run ads and track sales.',
+      includes: ['Store design and product pages', 'Cart and one-page checkout', 'Razorpay, UPI and COD', 'Shipping and GST settings', 'Pixel, CAPI and GA4 e-commerce events', 'Training to add products yourself'],
+      steps: [['Plan', 'Catalogue, categories, shipping and payment rules.'], ['Design', 'Product, category and checkout pages first.'], ['Build', 'Payments, shipping and tracking connected.'], ['Launch', 'Test orders, training and handover.']],
+      forWho: ['D2C brands', 'Boutiques and jewellers', 'Food and gifting brands', 'Shops going online'],
+      faqs: [['WooCommerce or Shopify?', 'WooCommerce has no monthly platform fee and full control; we advise based on your catalogue.'], ['Can customers pay by UPI and COD?', 'Yes, through Razorpay and COD settings.']],
+    },
+    {
+      slug: 'web-design', name: 'Web design', title: 'Websites that look like the brand you want to be',
+      intro: 'Design that explains what you do in five seconds and makes you look like the obvious choice, built mobile-first and in your brand.',
+      includes: ['Sitemap and wireframes', 'Visual design in your brand', 'Copywriting', 'Clickable prototype', 'Design system for future pages', 'Two rounds of changes'],
+      steps: [['Discover', 'Goals, audience and competitors.'], ['Wireframe', 'Structure agreed before visuals.'], ['Design', 'Mobile-first screens in your brand.'], ['Handover', 'Design ready for build.']],
+      forWho: ['Businesses with an outdated site', 'Brands moving upmarket', 'New businesses launching', 'Agencies needing design support'],
+      faqs: [['Do you write the content?', 'Yes, with you. Good design starts with clear words.'], ['Can we see it before it\'s built?', 'Yes, as a clickable prototype.']],
+    },
+    {
+      slug: 'performance', name: 'Performance', title: 'A faster site means more enquiries',
+      intro: 'Every second of loading costs visitors. We speed up existing sites and build new ones to pass Core Web Vitals on real phones.',
+      includes: ['Speed and Core Web Vitals audit', 'Image compression and modern formats', 'Caching and CDN (Cloudflare)', 'Script and plugin cleanup', 'Font and layout-shift fixes', 'Before/after report'],
+      steps: [['Measure', 'Lab and real-user speed data.'], ['Fix the heavy stuff', 'Images, scripts and plugins first.'], ['Cache', 'CDN and caching for every visitor.'], ['Verify', 'Retest and report the gains.']],
+      forWho: ['Slow WordPress sites', 'Stores with heavy images', 'Sites failing Core Web Vitals', 'Ad landing pages'],
+      faqs: [['Will this help SEO?', 'Speed is a ranking factor and improves conversions, so yes.'], ['Do we need to rebuild?', 'Usually not. Most sites get much faster with fixes.']],
+    },
+    {
+      slug: 'razorpay', name: 'Razorpay', title: 'Online payments set up properly',
+      intro: 'Razorpay on your website or store for UPI, cards, net banking and EMI, with payment links, webhooks and GST-ready invoices.',
+      includes: ['Razorpay account setup support', 'Checkout integration (WooCommerce or custom)', 'Payment links and buttons', 'Webhooks for order status', 'Refund and failure handling', 'Test and live mode checks'],
+      steps: [['Account', 'KYC and settings guidance.'], ['Integrate', 'Checkout or payment links on your site.'], ['Automate', 'Webhooks update orders and send receipts.'], ['Test', 'Test payments, refunds and failures before going live.']],
+      forWho: ['Online stores', 'Course and event bookings', 'Service businesses taking advances', 'Subscription products'],
+      faqs: [['How long does Razorpay approval take?', 'Usually a few working days after KYC.'], ['Do you handle failed payments?', 'Yes, orders update correctly whether a payment succeeds or fails.']],
+    },
+  ],
+  'software-development': [
+    {
+      slug: 'web-apps', name: 'Web apps', title: 'Custom web apps built around your workflow',
+      intro: 'Software that does exactly what your business needs, nothing more, nothing less, and works on any phone or laptop without installing anything.',
+      includes: ['Workflow mapping', 'Clickable prototype', 'Logins, roles and permissions', 'Database and admin panel', 'Hosting and backups', 'Training and handover'],
+      steps: [['Map', 'How work flows today, step by step.'], ['Prototype', 'Screens you can click before code.'], ['Build', 'Weekly releases you can try.'], ['Launch', 'Go live, train the team, support.']],
+      forWho: ['Businesses outgrowing spreadsheets', 'Hotels, clinics and institutes', 'Agencies and service teams', 'Founders with a product idea'],
+      faqs: [['How long does a web app take?', 'Simple tools take 3–6 weeks; larger systems 2–4 months.'], ['Who owns the code?', 'You do, with everything in your name.']],
+    },
+    {
+      slug: 'crm-dashboards', name: 'CRM & dashboards', title: 'Every lead, client and number in one place',
+      intro: 'A CRM built around how you actually sell, plus dashboards that show leads, sales, collections and team performance without chasing anyone for updates.',
+      includes: ['Lead capture from ads, website and WhatsApp', 'Pipeline stages and follow-up reminders', 'Client and project records', 'Sales and collection dashboards', 'Team targets and reports', 'Exports and access control'],
+      steps: [['Pipeline', 'Your stages from enquiry to payment.'], ['Capture', 'Leads flow in automatically from every source.'], ['Dashboards', 'The numbers you check daily, on one screen.'], ['Adopt', 'Training and small tweaks until the team uses it.']],
+      forWho: ['Sales teams on WhatsApp and Excel', 'Agencies and consultants', 'Real estate and education', 'Owners who want one dashboard'],
+      faqs: [['Why not just use Zoho or HubSpot?', 'Often we set those up. Custom makes sense when your process doesn\'t fit them.'], ['Can it work on phones?', 'Yes, fully mobile.']],
+    },
+    {
+      slug: 'booking-systems', name: 'Booking systems', title: 'Let customers book without a phone call',
+      intro: 'Online booking for rooms, appointments, classes or tables, with payments, reminders and a calendar your team actually uses.',
+      includes: ['Availability and slots', 'Online payments and advances', 'WhatsApp/SMS/email reminders', 'Staff and resource calendars', 'Cancellations and rescheduling', 'Booking reports'],
+      steps: [['Rules', 'Slots, capacity, prices and policies.'], ['Customer flow', 'Book in under a minute on a phone.'], ['Staff view', 'Calendars and daily lists for your team.'], ['Automate', 'Reminders and confirmations sent for you.']],
+      forWho: ['Hotels and homestays', 'Salons, clinics and studios', 'Classes and institutes', 'Restaurants and venues'],
+      faqs: [['Can it take advance payments?', 'Yes, through Razorpay.'], ['Does it sync with Google Calendar?', 'Yes, where needed.']],
+    },
+    {
+      slug: 'mobile-apps', name: 'Mobile apps (PWA)', title: 'App-like experiences without the app store hassle',
+      intro: 'Progressive web apps install to the home screen, work offline and send notifications, at a fraction of the cost of separate Android and iOS apps.',
+      includes: ['Installable app icon and splash', 'Offline support', 'Push notifications', 'Camera, location and file access', 'Fast updates without store reviews', 'Native app wrap if needed'],
+      steps: [['Scope', 'Which features must work like an app.'], ['Design', 'Thumb-friendly mobile screens.'], ['Build', 'PWA with offline and notifications.'], ['Distribute', 'Share a link; publish to stores if required.']],
+      forWho: ['Field and sales teams', 'Customer loyalty and ordering apps', 'Internal staff apps', 'MVPs before native apps'],
+      faqs: [['PWA or native app?', 'PWA for most business apps; native when you need deep device features or store presence.'], ['Do PWAs work on iPhone?', 'Yes, with a few limits we plan around.']],
+    },
+    {
+      slug: 'automation', name: 'Automation', title: 'Let software do the repetitive work',
+      intro: 'Reports, reminders, follow-ups, invoices and data entry that run themselves, so your team spends time on customers, not copy-paste.',
+      includes: ['Process audit to find repetitive tasks', 'Automated reports and alerts', 'Follow-up and reminder sequences', 'Invoice and receipt generation', 'Sheet and form automations', 'AI-assisted replies and summaries'],
+      steps: [['Find the busywork', 'Tasks your team repeats every day.'], ['Design the flow', 'Triggers, rules and outputs.'], ['Automate', 'Built and tested on real data.'], ['Monitor', 'Alerts if anything fails.']],
+      forWho: ['Teams drowning in Excel', 'Agencies and service businesses', 'Accounts and admin teams', 'Owners doing manual reports'],
+      faqs: [['What tools do you use?', 'Custom code, Google Apps Script, Make or Zapier, whichever fits best.'], ['Is AI involved?', 'Where it saves real time, like drafting replies or summarising calls.']],
+    },
+    {
+      slug: 'integrations', name: 'Integrations', title: 'Make your tools talk to each other',
+      intro: 'Connect your website, ads, CRM, payments, WhatsApp and accounting so data moves on its own and nothing falls through the cracks.',
+      includes: ['Website forms to CRM', 'Meta and Google lead sync', 'Razorpay and payment webhooks', 'WhatsApp Business API', 'Google Sheets and Drive', 'Accounting and GST tools'],
+      steps: [['Map the data', 'What moves where, and when.'], ['Connect', 'APIs and webhooks between your tools.'], ['Test', 'Every path tested with real cases.'], ['Document', 'A written map of how it all connects.']],
+      forWho: ['Businesses using 5+ tools', 'Teams re-typing data', 'E-commerce with separate systems', 'Agencies managing many clients'],
+      faqs: [['Can you connect any tool?', 'Most tools with an API or webhook, yes.'], ['What if an API changes?', 'Our care plans include monitoring and fixes.']],
+    },
+  ],
+  'pr-reputation': [
+    {
+      slug: 'media-coverage', name: 'Media coverage', title: 'Get your story into the right publications',
+      intro: 'Coverage in local and trade media builds trust faster than ads. We find the angle, write the pitch and reach the editors who cover your space.',
+      includes: ['Story angle development', 'Media list for your city and industry', 'Personalised pitches', 'Interview preparation', 'Coverage tracking', 'Share kits for social'],
+      steps: [['Angle', 'What makes your story news.'], ['Target', 'Publications and journalists who fit.'], ['Pitch', 'Personal outreach and follow-ups.'], ['Amplify', 'Coverage shared across your channels.']],
+      forWho: ['Founders building authority', 'Launches and milestones', 'Brands entering new cities', 'Businesses with a community story'],
+      faqs: [['Is this paid media?', 'We focus on earned coverage. Paid placements are clearly separate if you choose them.'], ['Can you guarantee coverage?', 'No. Editors decide; we make the story worth their time.']],
+    },
+    {
+      slug: 'press-releases', name: 'Press releases', title: 'Press releases editors actually read',
+      intro: 'Clear, newsworthy releases for launches, milestones and events, with photos and quotes ready to publish.',
+      includes: ['Release writing', 'Headline and quote development', 'Photos and media kit', 'Distribution list', 'Follow-up with editors', 'Coverage report'],
+      steps: [['Find the news', 'What changed and why it matters.'], ['Write', 'A release an editor can use as-is.'], ['Distribute', 'To the right outlets, not everyone.'], ['Track', 'Where it ran and what it reached.']],
+      forWho: ['Store and branch openings', 'New products and services', 'Awards and milestones', 'Events and CSR work'],
+      faqs: [['How long should a release be?', 'Usually 300–500 words with a strong first paragraph.'], ['Do you include photos?', 'Yes, from our crew or yours.']],
+    },
+    {
+      slug: 'review-management', name: 'Review management', title: 'More good reviews, better replies to bad ones',
+      intro: 'Reviews decide who gets the call. We set up a simple routine to ask happy customers, and draft calm, professional replies to every review.',
+      includes: ['Review request templates and QR codes', 'WhatsApp review links', 'Reply drafts for every review', 'Negative review response plan', 'Review monitoring across platforms', 'Monthly rating report'],
+      steps: [['Ask', 'The right moment and message to request a review.'], ['Reply', 'Every review answered in your voice.'], ['Recover', 'Unhappy customers taken offline and resolved.'], ['Report', 'Rating, volume and themes each month.']],
+      forWho: ['Restaurants and hotels', 'Clinics and salons', 'Stores with walk-in customers', 'Businesses with a few bad reviews'],
+      faqs: [['Can you remove bad reviews?', 'Only if they break platform rules. Otherwise a good reply and more good reviews work best.'], ['Do you write fake reviews?', 'Never. It risks your listing and your reputation.']],
+    },
+    {
+      slug: 'authority-building', name: 'Authority building', title: 'Become the name people mention first',
+      intro: 'Founder profiles, LinkedIn content, talks and expert quotes that make you the go-to person in your category and city.',
+      includes: ['Founder positioning', 'LinkedIn profile and content plan', 'Expert quote opportunities', 'Speaking and event opportunities', 'Podcast and interview pitching', 'Personal brand shoots'],
+      steps: [['Position', 'What you want to be known for.'], ['Publish', 'Regular posts and articles in your voice.'], ['Appear', 'Interviews, panels and quotes.'], ['Compound', 'Coverage reused across all channels.']],
+      forWho: ['Founders and doctors', 'Consultants and educators', 'Business owners hiring talent', 'Anyone raising their prices'],
+      faqs: [['Do I have to write posts myself?', 'No. We interview you and write in your voice for approval.'], ['How long does it take?', 'Expect visible momentum in 3–6 months of consistency.']],
+    },
+  ],
+};
+
+export const topicHref = (service: string, name: string): string | null => {
+  const t = topics[service]?.find((x) => x.name === name);
+  return t ? `/services/${service}/${t.slug}/` : null;
+};

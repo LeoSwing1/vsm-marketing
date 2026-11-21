@@ -1,0 +1,9 @@
+---
+import { different } from '../content/extra';
+---
+<section class="section-pad different aurora-soft">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <p class="eyebrow">Why VSM</p>
+  <h2 class="big-h split" style="margin:28px 0 60px">Not just another agency.<br><em>Here's what's different.</em></h2>
+  <div class="diff-grid">{different.map((d) => <article class="diff-card" data-tilt-card><strong data-count>{d.value}</strong><h3>{d.title}</h3><p>{d.line}</p></article>)}</div>
+</section>

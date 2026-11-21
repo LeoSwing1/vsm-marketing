@@ -1,0 +1,44 @@
+---
+import { getSite } from '../lib/content';
+import { testimonials } from '../content/extra';
+const s = await getSite();
+type Card = { kind: 'quote'; quote: string; name: string; role: string; initials: string; href?: string } | { kind: 'result'; value: string; label: string; client: string; href: string };
+const quotes: Card[] = testimonials.map((t) => ({ kind: 'quote', ...t }));
+const results: Card[] = s.cases.map((c) => ({ kind: 'result', value: c.stats[0].value, label: c.stats[0].label, client: c.client, href: `/work/${c.slug}/` }));
+const row1: Card[] = [quotes[0], results[0], quotes[1], results[1], quotes[2]];
+const row2: Card[] = [results[2], quotes[2], results[3], quotes[0], quotes[1]];
+---
+<section class="dark reviews-x" id="reviews">
+  <div class="aurora dark-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="rx-head section-pad">
+    <div>
+      <p class="eyebrow"><span class="dot"></span>Customer feedback</p>
+      <h2 class="big-h split" style="margin-top:28px">See what clients<br><em>say about VSM.</em></h2>
+    </div>
+    <div class="rx-score">
+      <div class="rx-num"><strong data-count id="rv-rating">{s.rating}</strong><span class="rx-stars" aria-label={`${s.rating} out of 5`}><i style={`--f:${(Number(s.rating) / 5) * 100}%`}>★★★★★</i>★★★★★</span></div>
+      <p id="rv-count">Google rating from {s.reviewCount} reviews</p>
+      <a class="pill-button light magnetic" href={s.reviewsUrl} target="_blank" rel="noopener" data-track="reviews_open">Read Google reviews <i>↗</i></a>
+    </div>
+  </div>
+  <div class="rx-rows" aria-label="Client reviews">
+    {[row1, row2].map((row, ri) => (
+      <div class:list={['rx-row', { rev: ri === 1 }]} data-rx-row={ri}>
+        <div class="rx-track">
+          {[0, 1].map((dup) => row.map((c) => c.kind === 'quote' ? (
+            <figure class="rx-card" aria-hidden={dup ? 'true' : undefined}>
+              <span class="rx-cardstars" aria-hidden="true">★★★★★</span>
+              <blockquote>“{c.quote}”</blockquote>
+              <figcaption><span class="t-av">{c.initials}</span><span><b>{c.name}</b><small>{c.role}</small></span></figcaption>
+            </figure>
+          ) : (
+            <a class="rx-card rx-result" href={c.href} aria-hidden={dup ? 'true' : undefined} tabindex={dup ? -1 : undefined} data-cursor="View">
+              <strong>{c.value}</strong><span>{c.label}</span><small>{c.client} · case study ↗</small>
+            </a>
+          )))}
+        </div>
+      </div>
+    ))}
+  </div>
+  <p class="rx-note">Hover to pause · drag on mobile</p>
+</section>

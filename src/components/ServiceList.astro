@@ -1,0 +1,14 @@
+---
+import { getSite } from '../lib/content';
+const { services } = await getSite();
+---
+<div class="service-list" data-svc-list>
+  {services.map((s) => (
+    <a class="service-row" href={`/services/${s.slug}/`} data-tags={s.tags.join('|')} data-name={s.name}>
+      <span class="service-number">{s.n}</span>
+      <div><h3>{s.name}</h3><p>{s.desc}</p></div>
+      <span class="service-arrow" aria-hidden="true">↗</span>
+    </a>
+  ))}
+</div>
+<div class="svc-preview" aria-hidden="true"></div>

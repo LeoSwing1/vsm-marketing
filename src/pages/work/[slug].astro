@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import { getSite, media } from '../../lib/content';
+import type { CaseStudy } from '../../content/site';
+export async function getStaticPaths() {
+  const { cases } = await getSite();
+  return cases.map((c, i) => ({ params: { slug: c.slug }, props: { c, i, next: cases[(i + 1) % cases.length] } }));
+}
+interface Props { c: CaseStudy; i: number; next: CaseStudy }
+const { c, i, next } = Astro.props;
+const schema = { '@context': 'https://schema.org', '@type': 'Article', headline: `${c.client}: ${c.result}`, author: { '@id': 'https://vsmgrowth.com/#org' }, publisher: { '@id': 'https://vsmgrowth.com/#org' }, about: c.client };
+---
+<Base title={`${c.client} Case Study | VSM Marketing`} description={`${c.client}, ${c.city}: ${c.result}. ${c.challenge.split('.')[0]}.`} schema={schema}>
+  <section class="sub-hero dark">
+    <p class="crumb"><a href="/">Home</a> / <a href="/work/">Work</a> / {c.category}</p>
+    <h1 transition:name={`case-${c.slug}`}>{c.client}</h1>
+    <p class="lead">{c.sector}, {c.city}. {c.result}.</p>
+    <div class="tag-list">{c.services.map((x) => <span>{x}</span>)}</div>
+  </section>
+  <div class={`project-${c.tone}`} style="padding-top:5vw">
+    <div class="project-art case-art" data-tilt data-video={media(c.reels[0])}>
+      <span class="project-index">Case study / 0{i + 1}</span>
+      <div class={`art-shape shape-${c.tone}`} style="width:32%"></div>
+      <span class="art-caption">VSM® / {c.category.toUpperCase()}</span>
+    </div>
+  </div>
+  <div class="case-reels">
+    {c.reels.map((r, k) => <figure class={`media project-${c.tone}`} data-src={media(r)} data-alt={`${c.client} reel ${k + 1}`}><div class={`art-shape shape-${c.tone}`}></div><figcaption>REEL 0{k + 1}</figcaption></figure>)}
+  </div>
+  <section class="section-pad">
+    <div class="case-stats">{c.stats.map((x) => <div><strong data-count>{x.value}</strong><span>{x.label}</span></div>)}</div>
+    <div class="case-body" style="margin-top:80px"><p class="eyebrow">The problem</p><p class="big">{c.challenge}</p></div>
+    <div class="case-body"><p class="eyebrow">What we did</p><ol>{c.approach.map((a) => <li>{a}</li>)}</ol></div>
+    <div class="case-body"><p class="eyebrow">What changed</p><p class="big">{c.outcome}</p></div>
+  </section>
+  <a class="next-case" href={`/work/${next.slug}/`} data-cursor="Next"><p class="eyebrow">Next case study</p><h2>{next.client} <em style="font-family:var(--serif);font-weight:400">↗</em></h2></a>
+  <ContactBand n="—" />
+</Base>

@@ -1,0 +1,22 @@
+---
+import Legal from '../components/Legal.astro';
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<Legal title="Privacy policy" description="How VSM Marketing collects, uses and protects information shared through vsmgrowth.com." updated="21 November 2026">
+  <p>This policy explains what VSM Marketing ("VSM", "we") collects when you use vsmgrowth.com or contact us, and how we use it. We follow the Digital Personal Data Protection Act, 2023.</p>
+  <h2>What we collect</h2>
+  <ul><li>Details you give us in the enquiry form or on WhatsApp, call or email: your name, phone number, business name, city and message.</li>
+  <li>Usage data collected by Google Analytics 4, such as pages visited, device type and approximate location. This uses cookies.</li></ul>
+  <h2>How we use it</h2>
+  <ul><li>To reply to your enquiry and send you a proposal.</li><li>To keep a record of enquiries in our CRM so the right person follows up.</li><li>To understand which pages help visitors, so we can improve the site.</li></ul>
+  <p>We do not sell your data. We do not send marketing messages unless you ask for them.</p>
+  <h2>Who we share it with</h2>
+  <p>Only service providers that help us run the business: our CRM (Zoho), website hosting (Cloudflare) and analytics (Google). They process data on our behalf.</p>
+  <h2>How long we keep it</h2>
+  <p>Enquiries are kept for up to 24 months, or longer if you become a client and the law requires us to keep records (for example, GST invoices).</p>
+  <h2>Your rights</h2>
+  <p>You can ask us to show, correct or delete the personal data we hold about you. Write to <a href={`mailto:${s.email}`}>{s.email}</a> and we will respond within 30 days.</p>
+  <h2>Contact</h2>
+  <p>VSM Marketing, {s.offices[0].lines.join(', ')}. GSTIN {s.gstin}. Phone {s.phoneDisplay}.</p>
+</Legal>

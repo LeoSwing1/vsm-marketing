@@ -1,0 +1,19 @@
+---
+import type { CaseStudy } from '../content/site';
+import { media } from '../lib/content';
+interface Props { c: CaseStudy; i: number }
+const { c, i } = Astro.props;
+---
+<a class={`project-card project-${c.tone}`} href={`/work/${c.slug}/`} data-category={c.category.toLowerCase()} data-cursor="View">
+  <div class="project-art" data-tilt data-video={media(c.reels[0])}>
+    <span class="project-index">Selected project / 0{i + 1}</span>
+    <div class={`art-shape shape-${c.tone}`}></div>
+    <span class="project-arrow" aria-hidden="true">↗</span>
+    <span class="art-caption">VSM® / {c.category.toUpperCase()}</span>
+  </div>
+  <div class="project-meta">
+    <div><p class="eyebrow">{c.category}</p><h3 transition:name={`case-${c.slug}`}>{c.client}</h3></div>
+    <p>{c.result}</p>
+  </div>
+  <div class="project-metrics">{c.stats.map((s) => <span><strong data-count>{s.value}</strong><small>{s.label}</small></span>)}</div>
+</a>

@@ -1,0 +1,19 @@
+---
+import { badges } from '../content/extra';
+import Icon from './Icon.astro';
+---
+<section class="section-pad certified aurora-wrap" id="certified">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <p class="eyebrow"><span class="dot"></span>Recognition</p>
+  <h2 class="cert-title split">Certified. Verified. <em>Trusted.</em></h2>
+  <p class="cert-sub">We don't just claim expertise. We're verified by the platforms we run campaigns on, and recognised by the brands we serve.</p>
+  <div class="badge-grid">
+    {badges.map((b, i) => (
+      <article class="badge" style={`--d:${i * 0.4}s`} data-tilt-card>
+        <span class="badge-ico"><Icon name={b.icon} size={30} /></span>
+        <b>{b.title}</b><small>{b.sub}</small>
+        <span class="shine" aria-hidden="true"></span>
+      </article>
+    ))}
+  </div>
+</section>

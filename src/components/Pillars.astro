@@ -1,0 +1,6 @@
+---
+import { pillars } from '../content/extra';
+---
+<section class="pillars" aria-label="What we deliver">
+  {pillars.map((p, i) => <a class="pillar" href={['#work', '#services', '#pricing'][i]}><small>0{i + 1}</small><h2>{p.name}</h2><p>{p.line}</p></a>)}
+</section>

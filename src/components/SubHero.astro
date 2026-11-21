@@ -1,0 +1,10 @@
+---
+interface Props { crumb: { label: string; href?: string }[]; lead?: string; cta?: { label: string; href: string } }
+const { crumb, lead, cta } = Astro.props;
+---
+<section class="sub-hero dark">
+  <p class="crumb">{crumb.map((c, i) => <>{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}{i < crumb.length - 1 && ' / '}</>)}</p>
+  <h1 class="split"><slot /></h1>
+  {lead && <p class="lead">{lead}</p>}
+  {cta && <a class="pill-button magnetic" href={cta.href}>{cta.label} <i>↗</i></a>}
+</section>

@@ -1,0 +1,23 @@
+---
+import { getSite } from '../lib/content';
+const { plans } = await getSite();
+---
+<section class="pricing-section section-pad" id="pricing">
+  <div class="section-heading">
+    <div><p class="eyebrow">06 / Clear monthly packages</p><h2 class="big-h split">Simple plans.<br><em>Serious momentum.</em></h2></div>
+    <p class="section-aside">Monthly, no lock-in. Ad spend is paid by you directly to Meta or Google; we take no commission on it.</p>
+  </div>
+  <div class="pricing-grid">
+    {plans.map((p) => (
+      <article class:list={['price-card', { 'is-popular': p.featured }]} data-spot>
+        {p.featured && <span class="popular-label">MOST POPULAR</span>}
+        <h3>{p.name}</h3>
+        <strong>{p.price}<small>/ month + GST</small></strong>
+        <p class="blurb">{p.blurb}</p>
+        <ul>{p.includes.map((f) => <li>{f}</li>)}</ul>
+        <a href={`/contact/?plan=${p.name}`} class="under-link" data-track="plan_select" data-plan={p.name}>Discuss this plan <i>↗</i></a>
+      </article>
+    ))}
+  </div>
+  <p class="pricing-note">Websites, brand films and one-off shoots are quoted per project.</p>
+</section>

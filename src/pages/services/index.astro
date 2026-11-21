@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubHero from '../../components/SubHero.astro';
+import Approach from '../../components/Approach.astro';
+import Pricing from '../../components/Pricing.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import { getSite } from '../../lib/content';
+import TagLinks from '../../components/TagLinks.astro';
+const { services } = await getSite();
+const schema = { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://vsmgrowth.com/services/${s.slug}/`, name: s.name })) };
+---
+<Base title="Digital Marketing Services | VSM Marketing" description="Social media & video production, Meta & Google Ads, SEO, websites, software & app development and PR. What each VSM service includes, how it runs and what it costs." schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Services' }]} lead="Six services, one team. Take one, or let us run all of it. Open any service to see deliverables, how we run it and the questions people ask first." cta={{ label: 'Talk to a growth specialist', href: '/contact/' }}>Marketing built<br><em>around outcomes.</em></SubHero>
+  <section class="section-pad">
+    {services.map((s) => (
+      <article class="detail-row" id={s.slug}>
+        <span>{s.n}</span>
+        <div><h2><a href={`/services/${s.slug}/`}>{s.name}</a></h2><p>{s.desc}</p><TagLinks service={s.slug} tags={s.tags} /></div>
+        <a class="under-link" href={`/services/${s.slug}/`}>See the details <i>↗</i></a>
+      </article>
+    ))}
+  </section>
+  <Approach />
+  <Pricing />
+  <ContactBand n="—" />
+</Base>

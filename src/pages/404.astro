@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro';
+import SubHero from '../components/SubHero.astro';
+---
+<Base title="Page not found | VSM Marketing" description="This page doesn't exist.">
+  <SubHero crumb={[{ label: '404' }]} lead="It may have moved when we rebuilt the site." cta={{ label: 'Back to the homepage', href: '/' }}>This page<br><em>isn't here.</em></SubHero>
+</Base>

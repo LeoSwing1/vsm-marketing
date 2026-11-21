@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubHero from '../../components/SubHero.astro';
+import WorkGrid from '../../components/WorkGrid.astro';
+import Marquee from '../../components/Marquee.astro';
+import ContactBand from '../../components/ContactBand.astro';
+---
+<Base title="Client Work & Case Studies | VSM Marketing" description="VSM Marketing case studies: Pushpdeep Collection, Hotel Quivira, KQ Salon & Academy and Deesha Couture. Reels, ads and local growth, with the numbers.">
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Work' }]} lead="Local brands, real budgets and the numbers that came back. Pick a project to see the problem, what we did and what changed.">Less noise.<br><em>More outcome.</em></SubHero>
+  <section class="section-pad"><WorkGrid /></section>
+  <Marquee />
+  <ContactBand n="02" />
+</Base>

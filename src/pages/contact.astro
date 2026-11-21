@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import SubHero from '../components/SubHero.astro';
+import Faq from '../components/Faq.astro';
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<Base title="Contact VSM Marketing | Start a Project" description="Talk to VSM Marketing about social media, ads, SEO, video, websites or PR. Call or WhatsApp +91 82795 74755, or send an enquiry. Meerut and Noida.">
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} lead="A little context helps us make the first conversation useful. We reply the same day, Monday to Saturday.">Tell us what<br>you're <em>building.</em></SubHero>
+  <section class="contact-layout section-pad">
+    <div>
+      <p class="eyebrow">Direct line</p>
+      <h2 class="split">Good things<br>start with a <em>hello.</em></h2>
+      <div class="direct">
+        <a href={`https://wa.me/${s.whatsapp}`} target="_blank" rel="noopener" data-track="whatsapp">WhatsApp {s.phoneDisplay} ↗</a>
+        <a href={`tel:${s.phone}`} data-track="call">Call {s.phoneDisplay} ↗</a>
+        <a href={`mailto:${s.email}`} data-track="email">{s.email} ↗</a>
+      </div>
+      <p class="muted" style="margin-top:28px">{s.hours}.<br>{s.offices.map((o) => <>{o.city}: {o.lines.join(', ')}<br></>)}</p>
+    </div>
+    <div>
+      <form class="lead-form" id="lead" novalidate data-wa={s.whatsapp}>
+        <label>Your name<input name="name" autocomplete="name" required maxlength="80" placeholder="How should we call you?"></label>
+        <label>WhatsApp number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="16" placeholder="98xxxxxxxx"></label>
+        <label>Email (optional)<input name="email" type="email" autocomplete="email" maxlength="120" placeholder="you@company.com"></label>
+        <label>Business<input name="biz" autocomplete="organization" maxlength="120" placeholder="Business name"></label>
+        <label>Website or Instagram<input name="website" maxlength="200" placeholder="https:// or @handle"></label>
+        <label>City<input name="city" value="Meerut" maxlength="60"></label>
+        <fieldset class="full" style="border:0;padding:0;margin:0">
+          <legend style="font-size:13px;font-weight:700;margin-bottom:12px">What do you need?</legend>
+          <div class="chips">
+            {s.services.map((x, i) => <label><input type="radio" name="svc" value={x.id} data-label={x.name} checked={i === 0}><span>{x.short}</span></label>)}
+            <label><input type="radio" name="svc" value="plan" data-label="A monthly plan"><span>Monthly plan</span></label>
+            <label><input type="radio" name="svc" value="other" data-label="Not sure yet"><span>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="full" style="border:0;padding:0;margin:0">
+          <legend style="font-size:13px;font-weight:700;margin-bottom:12px">Monthly budget (optional)</legend>
+          <div class="chips">{['Under ₹15k', '₹15k–30k', '₹30k–60k', '₹60k+'].map((b) => <label><input type="radio" name="budget" value={b}><span>{b}</span></label>)}</div>
+        </fieldset>
+        <label class="full">Tell us a little about it<textarea name="msg" maxlength="1000" placeholder="Your goals, challenges, timeline..."></textarea></label>
+        <input type="hidden" name="industry">
+        <label class="hp" aria-hidden="true">Leave empty<input name="company_site" tabindex="-1" autocomplete="off"></label>
+        <p class="err full" id="ferr" role="alert"></p>
+        <div class="full"><button class="pill-button magnetic" type="submit">Send enquiry <i>↗</i></button></div>
+        <p class="form-note full">Your enquiry goes straight to the founders. We use it only to reply to you. See our <a href="/privacy-policy/" style="text-decoration:underline">privacy policy</a>.</p>
+      </form>
+      <div class="done" id="done" role="status" hidden>
+        <p id="donemsg">Got it. We'll call you within business hours.</p>
+        <a class="pill-button" id="walink" href="#" target="_blank" rel="noopener" data-track="whatsapp_after_form">Also message us on WhatsApp <i>↗</i></a>
+      </div>
+    </div>
+  </section>
+  <Faq items={s.faqs} dark n="—" />
+  <section class="section-pad map-section">
+    <div class="section-heading"><div><p class="eyebrow">Visit us</p><h2 class="big-h">Two offices, <em>one crew.</em></h2></div><a class="under-link" href={s.gmb} target="_blank" rel="noopener" data-track="gmb_open">Google Business Profile <i>↗</i></a></div>
+    <div class="map-grid">
+      {s.offices.map((o) => (
+        <article class="map-card">
+          <div class="map-frame"><iframe title={`VSM Marketing ${o.city} on Google Maps`} src={`https://www.google.com/maps?q=${encodeURIComponent('VSM Marketing, ' + o.lines.join(', '))}&output=embed`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+          <div class="map-meta"><p class="eyebrow">{o.label}</p><h3>{o.city}</h3><p>{o.lines.join(', ')}</p><p class="muted">{s.hours}</p>
+            <a class="under-link" href={o.maps} target="_blank" rel="noopener" data-track="directions">Get directions <i>↗</i></a></div>
+        </article>))}
+    </div>
+  </section>
+</Base>

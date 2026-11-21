@@ -1,0 +1,12 @@
+---
+import { getSite } from '../lib/content';
+const { steps } = await getSite();
+---
+<section class="approach section-pad">
+  <p class="eyebrow">05 / How we work</p>
+  <h2 class="big-h split" style="margin-top:28px">Clear thinking.<br><em>Committed doing.</em></h2>
+  <div class="steps" data-steps>
+    <span class="steps-line" aria-hidden="true"></span>
+    {steps.map((s, i) => <article><span>0{i + 1}</span><h3>{s.name}</h3><p>{s.line}</p></article>)}
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+import { team } from '../content/extra';
+import Icon from './Icon.astro';
+---
+<section class="section-pad team aurora-wrap" id="team">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <p class="eyebrow"><span class="dot"></span>Founders & team</p>
+  <h2 class="big-h split" style="margin:28px 0 60px">The people behind<br><em>the noise.</em></h2>
+  <div class="team-grid">
+    {team.map((m) => (
+      <article class:list={['member', { founder: m.founder }]} data-tilt-card>
+        <span class="avatar">{m.initials ? <b>{m.initials}</b> : <Icon name={m.icon!} size={34} />}</span>
+        <h3>{m.name}</h3><small>{m.role}</small><p>{m.line}</p>
+      </article>
+    ))}
+  </div>
+</section>

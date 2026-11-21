@@ -1,0 +1,28 @@
+{
+  "name": "vsmgrowth",
+  "private": true,
+  "type": "module",
+  "version": "2.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro check && astro build",
+    "preview": "wrangler pages dev ./dist",
+    "deploy": "astro build && wrangler pages deploy ./dist --project-name vsmgrowth"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
+    "@sanity/client": "^8.17.0",
+    "astro": "^7.4.13",
+    "gsap": "^3.15.1",
+    "three": "^0.187.0",
+    "lenis": "^1.3.27"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@cloudflare/workers-types": "latest",
+    "@types/three": "^0.187.0",
+    "typescript": "^6.0.0",
+    "wrangler": "^4.166.0"
+  }
+}

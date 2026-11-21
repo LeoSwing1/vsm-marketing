@@ -1,0 +1,12 @@
+---
+const path = Astro.url.pathname;
+const nav: [string, string][] = [['Studio', '/studio/'], ['Work', '/work/'], ['Services', '/services/'], ['Pricing', '/#pricing'], ['Journal', '/journal/'], ['Contact', '/contact/']];
+const current = (href: string) => (href.length > 2 && !href.includes('#') && path.startsWith(href) ? 'page' : undefined);
+---
+<header class="site-header" id="top">
+  <a class="wordmark" href="/" aria-label="VSM Marketing, home"><img src="/vsm-logo.svg" alt="VSM Marketing" width="210" height="106" /></a>
+  <nav class="desktop-nav" aria-label="Main">{nav.map(([l, h]) => <a href={h} aria-current={current(h)}>{l}</a>)}</nav>
+  <a class="header-cta magnetic" href="/contact/" data-track="cta_header">Start a project <i>↗</i></a>
+  <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><i></i><i></i></button>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile">{nav.map(([l, h]) => <a href={h}>{l}<i>↗</i></a>)}</nav>

@@ -1,0 +1,11 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { getSite } from '../lib/content';
+const { cases } = await getSite();
+const cats = [...new Set(cases.map((c) => c.category))];
+---
+<div class="work-filters" role="group" aria-label="Filter work">
+  <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All work <span>0{cases.length}</span></button>
+  {cats.map((c) => <button class="filter-chip" type="button" data-filter={c.toLowerCase()} aria-pressed="false">{c} <span>0{cases.filter((x) => x.category === c).length}</span></button>)}
+</div>
+<div class="project-grid" data-grid>{cases.map((c, i) => <ProjectCard c={c} i={i} />)}</div>

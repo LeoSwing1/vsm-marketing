@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubHero from '../../components/SubHero.astro';
+import Faq from '../../components/Faq.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getSite } from '../../lib/content';
+import type { Service } from '../../content/site';
+import { deep } from '../../content/extra';
+import TagLinks from '../../components/TagLinks.astro';
+import { topics } from '../../content/topics';
+export async function getStaticPaths() {
+  const { services } = await getSite();
+  return services.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+interface Props { s: Service }
+const { s } = Astro.props;
+const site = await getSite();
+const related = site.services.filter((x) => x.slug !== s.slug).slice(0, 3);
+const proof = site.cases.filter((c) => c.services.some((x) => s.tags.concat(s.short, s.name).some((t) => x.toLowerCase().includes(t.toLowerCase().split(' ')[0])))).slice(0, 2);
+const schema = {
+  '@context': 'https://schema.org', '@graph': [
+    { '@type': 'Service', name: s.name, description: s.desc, provider: { '@id': 'https://vsmgrowth.com/#org' }, areaServed: ['Meerut', 'Noida', 'Ghaziabad', 'Delhi NCR', 'India'], serviceType: s.name },
+    { '@type': 'FAQPage', mainEntity: s.faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  ],
+};
+const [first, ...rest] = s.name.split(' ');
+const d = deep[s.slug];
+---
+<Base title={`${s.name} in Meerut & Noida | VSM Marketing`} description={`${s.desc} Deliverables, process and FAQs for VSM's ${s.name.toLowerCase()} service.`} schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services/' }, { label: s.n }]} lead={s.desc} cta={{ label: `Discuss ${s.short.toLowerCase()}`, href: `/contact/?service=${s.id}` }}>{first}<br><em>{rest.join(' ')}</em></SubHero>
+  <section class="section-pad svc-intro">
+    <div class="intro-grid" style="margin-top:0">
+      <div><p class="eyebrow">Overview</p><p class="large-copy" style="margin-top:24px">{d.intro}</p><TagLinks service={s.slug} tags={s.tags} /></div>
+      <div><p class="eyebrow">Ideal for</p><ul class="ideal">{d.idealFor.map((x) => <li>{x}</li>)}</ul></div>
+    </div>
+  </section>
+  <section class="section-pad dark svc-steps" data-timeline>
+    <div class="section-heading"><div><p class="eyebrow">Step by step</p><h2 class="big-h split">How we run<br><em>{s.short.toLowerCase()}.</em></h2></div><p class="section-aside">Every step, who does what and roughly when. You approve before anything goes live.</p></div>
+    <ol class="timeline">
+      <span class="timeline-line" aria-hidden="true"><i></i></span>
+      {d.steps.map((st, i) => <li><span class="t-num">0{i + 1}</span><div><small>{st.when}</small><h3>{st.title}</h3><p>{st.detail}</p></div></li>)}
+    </ol>
+  </section>
+  {topics[s.slug] && (
+    <section class="section-pad" style="padding-bottom:0">
+      <div class="section-heading"><div><p class="eyebrow">Inside {s.short.toLowerCase()}</p><h2 class="big-h split">Pick what<br><em>you need.</em></h2></div><p class="section-aside">Every part of {s.name.toLowerCase()} has its own page with what's included and how it works.</p></div>
+      <div class="related topic-grid">{topics[s.slug].map((t, i) => <a href={`/services/${s.slug}/${t.slug}/`} data-cursor="Open"><small>{s.n}.{i + 1}</small><b>{t.name}</b><span>{t.title}</span></a>)}</div>
+    </section>
+  )}
+  <section class="section-pad">
+    <div class="svc-cols three">
+      <div><p class="eyebrow">Every month you get</p><ul>{d.monthly.map((x) => <li>{x}</li>)}</ul></div>
+      <div><p class="eyebrow">Typical deliverables</p><ul>{s.deliverables.map((x) => <li>{x}</li>)}</ul></div>
+      <div><p class="eyebrow">What we report</p><ul>{d.kpis.map((x) => <li>{x}</li>)}</ul></div>
+    </div>
+    <div class="tools"><p class="eyebrow">Tools we use</p><div class="tag-list">{d.tools.map((t) => <span>{t}</span>)}</div></div>
+  </section>
+  {s.id === 'dev' && (
+    <section class="section-pad" style="padding-top:0">
+      <div class="section-heading"><div><p class="eyebrow">Proof</p><h2 class="big-h split">Software we <em>run on.</em></h2></div><a class="under-link" href="/studio/">About the studio <i>↗</i></a></div>
+      <div class="built-list"><ul>{site.products.map((p) => <li><b>{p.name}</b><span>{p.kind}</span><p>{p.line}</p></li>)}</ul></div>
+    </section>
+  )}
+  {proof.length > 0 && s.id !== 'dev' && (
+    <section class="section-pad" style="padding-top:0">
+      <div class="section-heading"><div><p class="eyebrow">Proof</p><h2 class="big-h split">Where it <em>worked.</em></h2></div><a class="under-link" href="/work/">All work <i>↗</i></a></div>
+      <div class="project-grid">{proof.map((c) => <ProjectCard c={c} i={site.cases.indexOf(c)} />)}</div>
+    </section>
+  )}
+  <Faq items={s.faqs.map(([q, a]) => ({ q, a }))} title="Common questions, answered." dark n={s.n} />
+  <section class="section-pad">
+    <p class="eyebrow">Also from VSM</p>
+    <div class="related">{related.map((r) => <a href={`/services/${r.slug}/`}><small>{r.n}</small><b>{r.name}</b></a>)}</div>
+  </section>
+  <ContactBand n="—" />
+</Base>

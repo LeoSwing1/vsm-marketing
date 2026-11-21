@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import SubHero from '../components/SubHero.astro';
+import Approach from '../components/Approach.astro';
+import ContactBand from '../components/ContactBand.astro';
+import Marquee from '../components/Marquee.astro';
+import Team from '../components/Team.astro';
+import Certified from '../components/Certified.astro';
+import Different from '../components/Different.astro';
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<Base title="About VSM Marketing | Studio in Meerut & Noida" description="VSM Marketing is a digital growth studio started in Meerut in 2021 by Vishant and Sushant Malik, with a branch in Noida. Strategy, content, ads, SEO, film and web.">
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Studio' }]} lead="A digital marketing studio started in Meerut in 2021, with a branch in Noida, serving businesses across India.">Small enough<br>to care. <em>Built to move.</em></SubHero>
+  <figure class="studio-photo media" data-src="/media/team.jpg" data-alt="The VSM team at the Meerut studio" style="margin-top:5vw"><div class="ph"></div><figcaption>MEERUT STUDIO</figcaption></figure>
+  <section class="section-pad">
+    <div class="intro-grid" style="margin-top:0">
+      <h2 class="big-h split">Make the work<br><em>mean something.</em></h2>
+      <div data-fade>
+        <p class="large-copy">Two brothers started VSM because they were tired of agencies that post and disappear. Five years later the same idea runs the place: a clear plan, work we'd sign our name to, and a report you can actually read.</p>
+        <p class="muted">Today a team of strategists, designers, editors and a production crew works out of Meerut and Noida, for brands in retail, food, fashion, hospitality, education and more.</p>
+      </div>
+    </div>
+  </section>
+  <section class="proof-strip">
+    <div class="proof-heading"><p class="eyebrow">By the numbers</p><p>What five years in Meerut and Noida adds up to.</p></div>
+    {s.stats.map((x) => <div class="proof-item"><strong data-count>{x.value}</strong><span>{x.label}</span></div>)}
+  </section>
+  <Team />
+  <Different />
+  <Certified />
+  <section class="dark section-pad">
+    <div class="section-heading"><div><p class="eyebrow">Built by VSM</p><h2 class="big-h split">We build<br><em>software too.</em></h2></div><p class="section-aside">The tools we run on are our own. It's why we understand your website or app from the inside.</p></div>
+    <div class="built-list" style="border-color:var(--dark-line)"><ul>{s.products.map((p) => <li style="border-color:var(--dark-line)"><b>{p.name}</b><span>{p.kind}</span><p style="color:var(--dark-muted)">{p.line}</p></li>)}</ul></div>
+  </section>
+  <Approach />
+  <section class="section-pad" style="padding-top:0">
+    <p class="eyebrow">Find us</p>
+    <div class="offices">{s.offices.map((o) => <a class="office" href={o.maps} target="_blank" rel="noopener" data-track="directions" data-cursor="Map"><small>{o.label}</small><div><b>{o.city}</b><p class="muted" style="margin:8px 0 0">{o.lines.join(', ')}</p></div></a>)}</div>
+  </section>
+  <Marquee />
+  <ContactBand n="—" />
+</Base>

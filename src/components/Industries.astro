@@ -1,0 +1,5 @@
+---
+import { getSite } from '../lib/content';
+const { industries } = await getSite();
+---
+<div class="industry-grid">{industries.map((x, i) => <a href={`/contact/?industry=${encodeURIComponent(x)}`}><small>0{i + 1}</small>{x}</a>)}</div>

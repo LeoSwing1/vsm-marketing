@@ -1,0 +1,15 @@
+---
+import Legal from '../components/Legal.astro';
+import { getSite } from '../lib/content';
+const s = await getSite();
+---
+<Legal title="Refund policy" description="Refunds and cancellations for VSM Marketing's monthly plans and projects." updated="21 November 2026">
+  <h2>Monthly plans</h2>
+  <p>Fees for a month that has started are not refunded, because work and shoot days are scheduled in advance. If you give 15 days' notice, you will not be billed for the following month.</p>
+  <h2>Projects</h2>
+  <p>Advance payments for websites, films and shoots cover planning and booked crew time. If you cancel before work begins, we refund the advance minus any costs already paid to third parties (for example, location, equipment or domain fees). Once work begins, payments for completed milestones are not refunded.</p>
+  <h2>Ad spend</h2>
+  <p>Ad budgets are paid directly by you to Meta or Google. Refunds for ad spend are handled by those platforms under their own policies.</p>
+  <h2>How to ask</h2>
+  <p>Email <a href={`mailto:${s.email}`}>{s.email}</a> with your invoice number. Approved refunds are paid to the original payment method within 7 to 10 working days.</p>
+</Legal>

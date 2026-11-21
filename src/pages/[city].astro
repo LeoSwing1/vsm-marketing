@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import SubHero from '../components/SubHero.astro';
+import Faq from '../components/Faq.astro';
+import ContactBand from '../components/ContactBand.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Pricing from '../components/Pricing.astro';
+import { getSite } from '../lib/content';
+import { cities, type City } from '../content/cities';
+
+export function getStaticPaths() { return cities.map((c) => ({ params: { city: c.slug }, props: { c } })); }
+interface Props { c: City }
+const { c } = Astro.props;
+const s = await getSite();
+const office = s.offices.find((o) => o.city === c.office) ?? s.offices.find((o) => o.city === 'Noida')!;
+const local = s.cases.filter((x) => x.city === c.city);
+const proof = (local.length ? local : s.cases).slice(0, 2);
+const schema = {
+  '@context': 'https://schema.org', '@graph': [
+    { '@type': 'ProfessionalService', '@id': `https://vsmgrowth.com/${c.slug}/#business`, name: `VSM Marketing — Digital Marketing Agency in ${c.city}`, url: `https://vsmgrowth.com/${c.slug}/`,
+      parentOrganization: { '@id': 'https://vsmgrowth.com/#org' }, telephone: s.phone, email: s.email, priceRange: '₹12,000–₹55,000 per month', image: 'https://vsmgrowth.com/og-image.jpg', logo: 'https://vsmgrowth.com/vsm-logo-512.png',
+      address: { '@type': 'PostalAddress', streetAddress: office.lines[0], addressLocality: office.city, addressRegion: 'Uttar Pradesh', postalCode: office.lines[1].match(/\d{6}/)?.[0], addressCountry: 'IN' },
+      areaServed: [{ '@type': 'City', name: c.city }, ...c.nearby.map((n) => ({ '@type': 'Place', name: n }))], hasMap: s.gmb, sameAs: [s.gmb, s.instagram, s.facebook],
+      openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '10:00', closes: '19:00' }],
+      makesOffer: s.services.map((x) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: x.name } })) },
+    { '@type': 'FAQPage', mainEntity: c.faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  ],
+};
+---
+<Base title={`Digital Marketing Agency in ${c.city} | VSM Marketing`} description={`VSM is a digital marketing agency serving ${c.area}: reels, Meta & Google Ads, SEO, websites and software. In-house shoots, plans from ₹12,000/month.`} schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: `Digital marketing in ${c.city}` }]} lead={c.intro} cta={{ label: `Book a free audit in ${c.city}`, href: `/contact/?industry=${encodeURIComponent(c.city)}` }}>Digital marketing<br>agency in <em>{c.city}.</em></SubHero>
+  <section class="section-pad">
+    <div class="intro-grid" style="margin-top:0">
+      <div><p class="eyebrow">Why VSM in {c.city}</p><ul class="ideal">{c.why.map((x) => <li>{x}</li>)}</ul></div>
+      <div><p class="eyebrow">Industries we work with in {c.city}</p><ul class="ideal">{c.industries.map((x) => <li>{x}</li>)}</ul></div>
+    </div>
+  </section>
+  <section class="dark section-pad">
+    <div class="section-heading"><div><p class="eyebrow">Services in {c.city}</p><h2 class="big-h split">Everything your brand<br><em>needs to be seen.</em></h2></div></div>
+    <div class="service-list">{s.services.map((x) => <a class="service-row" href={`/services/${x.slug}/`}><span class="service-number">{x.n}</span><div><h3>{x.name}</h3><p>{x.desc}</p></div><span class="service-arrow" aria-hidden="true">↗</span></a>)}</div>
+  </section>
+  <section class="section-pad">
+    <div class="section-heading"><div><p class="eyebrow">Proof</p><h2 class="big-h split">Results we've <em>delivered.</em></h2></div><a class="under-link" href="/work/">All work <i>↗</i></a></div>
+    <div class="project-grid">{proof.map((p) => <ProjectCard c={p} i={s.cases.indexOf(p)} />)}</div>
+  </section>
+  <section class="section-pad" style="padding-top:0">
+    <div class="intro-grid" style="margin-top:0">
+      <div><p class="eyebrow">Visit us</p><h2 class="big-h" style="margin-top:20px">{office.city} <em>office.</em></h2><p class="large-copy" style="margin-top:20px">{office.lines.join(', ')}</p><p class="muted">{s.hours} · <a href={`tel:${s.phone}`}>{s.phoneDisplay}</a></p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px"><a class="pill-button magnetic" href={s.gmb} target="_blank" rel="noopener" data-track="gmb_open">See us on Google <i>↗</i></a><a class="under-link" href={office.maps} target="_blank" rel="noopener" data-track="directions">Get directions <i>↗</i></a></div></div>
+      <div><p class="eyebrow">Also serving near {c.city}</p><ul class="ideal">{c.nearby.map((x) => <li>{x}</li>)}</ul></div>
+    </div>
+  </section>
+  <Pricing />
+  <Faq items={c.faqs.map(([q, a]) => ({ q, a }))} title={`${c.city} questions, answered.`} dark n="—" />
+  <ContactBand n="—" />
+</Base>

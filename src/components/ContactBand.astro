@@ -1,0 +1,9 @@
+---
+interface Props { n?: string }
+const { n = '09' } = Astro.props;
+---
+<section class="contact-band section-pad">
+  <p class="eyebrow">{n} / Your next move</p>
+  <h2 class="split">Ready to make<br><em>things happen?</em></h2>
+  <a class="pill-button magnetic" href="/contact/" data-track="cta_band">Tell us what you're building <i>↗</i></a>
+</section>

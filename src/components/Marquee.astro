@@ -1,0 +1,10 @@
+---
+import { getSite, media } from '../lib/content';
+const { clients } = await getSite();
+---
+<div class="marquee" aria-label="Brands we have worked with">
+  <div class="marquee-track" data-marquee>
+    {clients.map((c) => <span data-logo={c.logo ? media(c.logo) : undefined}>{c.name}</span>)}
+    {clients.map((c) => <span aria-hidden="true" data-logo={c.logo ? media(c.logo) : undefined}>{c.name}</span>)}
+  </div>
+</div>

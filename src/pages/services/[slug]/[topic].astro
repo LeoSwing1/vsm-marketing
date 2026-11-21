@@ -1,0 +1,55 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubHero from '../../../components/SubHero.astro';
+import Faq from '../../../components/Faq.astro';
+import ContactBand from '../../../components/ContactBand.astro';
+import { getSite } from '../../../lib/content';
+import { topics, type Topic } from '../../../content/topics';
+import type { Service } from '../../../content/site';
+
+export async function getStaticPaths() {
+  const { services } = await getSite();
+  return services.flatMap((s) => (topics[s.slug] ?? []).map((t) => ({ params: { slug: s.slug, topic: t.slug }, props: { s, t } })));
+}
+interface Props { s: Service; t: Topic }
+const { s, t } = Astro.props;
+const siblings = (topics[s.slug] ?? []).filter((x) => x.slug !== t.slug);
+const url = `https://vsmgrowth.com/services/${s.slug}/${t.slug}/`;
+const schema = {
+  '@context': 'https://schema.org', '@graph': [
+    { '@type': 'Service', name: `${t.name} — ${s.name}`, description: t.intro, provider: { '@id': 'https://vsmgrowth.com/#org' }, areaServed: ['Meerut', 'Noida', 'Ghaziabad', 'Delhi NCR', 'India'], url },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vsmgrowth.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://vsmgrowth.com/services/' },
+      { '@type': 'ListItem', position: 3, name: s.name, item: `https://vsmgrowth.com/services/${s.slug}/` },
+      { '@type': 'ListItem', position: 4, name: t.name, item: url },
+    ] },
+    { '@type': 'FAQPage', mainEntity: t.faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  ],
+};
+const words = t.title.split(' ');
+const cut = Math.ceil(words.length / 2);
+---
+<Base title={`${t.name} in Meerut & Noida | VSM Marketing`} description={`${t.intro.split('. ')[0]}. ${t.name} by VSM, part of ${s.name}.`} schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services/' }, { label: s.name, href: `/services/${s.slug}/` }, { label: t.name }]} lead={t.intro} cta={{ label: `Talk about ${t.name.toLowerCase()}`, href: `/contact/?service=${s.id}` }}>{words.slice(0, cut).join(' ')}<br><em>{words.slice(cut).join(' ')}</em></SubHero>
+  <section class="section-pad">
+    <div class="intro-grid" style="margin-top:0">
+      <div><p class="eyebrow">What's included</p><ul class="ideal">{t.includes.map((x) => <li>{x}</li>)}</ul></div>
+      <div><p class="eyebrow">Who it's for</p><ul class="ideal">{t.forWho.map((x) => <li>{x}</li>)}</ul>
+        <p class="muted" style="margin-top:28px">Part of <a class="under-link" style="margin:0" href={`/services/${s.slug}/`}>{s.name} <i>↗</i></a></p></div>
+    </div>
+  </section>
+  <section class="section-pad dark svc-steps" data-timeline>
+    <div class="section-heading"><div><p class="eyebrow">How it works</p><h2 class="big-h split">{t.name},<br><em>step by step.</em></h2></div></div>
+    <ol class="timeline">
+      <span class="timeline-line" aria-hidden="true"><i></i></span>
+      {t.steps.map(([h, d], i) => <li><span class="t-num">0{i + 1}</span><div><h3>{h}</h3><p>{d}</p></div></li>)}
+    </ol>
+  </section>
+  <Faq items={t.faqs.map(([q, a]) => ({ q, a }))} title="Common questions, answered." n={s.n} />
+  <section class="section-pad" style="padding-top:0">
+    <p class="eyebrow">More in {s.name}</p>
+    <div class="related">{siblings.map((x) => <a href={`/services/${s.slug}/${x.slug}/`}><small>{s.n} / {s.short}</small><b>{x.name}</b></a>)}</div>
+  </section>
+  <ContactBand n="—" />
+</Base>
