@@ -2,14 +2,14 @@
 
 | Layer | Technology | Where |
 |---|---|---|
-| Website architecture | Astro 7 (static output, View Transitions), 20 pages | `src/pages`, `src/layouts` |
+| Website architecture | Astro 7 (static output, View Transitions), 54 pages | `src/pages`, `src/layouts` |
 | Language | TypeScript (strict) | everywhere |
 | Structure | Semantic HTML, server-rendered | `src/components/*.astro` |
 | Styling | Modern CSS (grid, `color-mix`, view-transition pseudo-elements) | `src/styles/global.css` |
 | 3D graphics | Three.js particle word/globe + star field, lazy-loaded on the homepage only | `src/scripts/hero3d.ts` |
 | Rendering | WebGL2, falls back to a CSS sphere | `src/scripts/main.ts` |
 | Shaders | GLSL point sprites: text↔globe morph, cursor repulsion, click burst, scroll scatter, twinkling stars | `src/scripts/hero3d.ts` |
-| Motion | GSAP + ScrollTrigger + Flip: reveals, count-ups, parallax, filters, marquee, magnetic, cursor | `src/scripts/motion.ts`, `src/scripts/interactions.ts` |
+| Motion | Lenis smooth scroll on the GSAP ticker + GSAP ScrollTrigger + Flip: reveals, count-ups, parallax, filters, marquee, magnetic, cursor | `src/scripts/motion.ts`, `src/scripts/interactions.ts` |
 | Content management | Sanity (schemas in `/sanity`), local fallback in `src/content/site.ts` | `src/lib/content.ts` |
 | Hosting | Cloudflare Pages + Pages Functions | `wrangler.toml`, `functions/` |
 | Analytics | GA4 (page views on every view-transition navigation, lead + click events) + Search Console verification + sitemap | `src/scripts/analytics.ts` |
@@ -19,6 +19,7 @@
 Visual design from vsm-growth-2 (paper / ink / dark sections, Manrope + DM Mono + Instrument Serif italic, orange accent, VSM logo), type sizes raised for reading.
 
 ## Interactions
+- Smoothness: Lenis smooth scroll, WebGL at up to 2× DPR with auto-downgrade if frames drop, no backdrop-filter/blur on moving layers, all motion on transform/opacity.
 - Splash (homepage only, on every load/refresh; other pages open directly): VSM logo fades in, breathes, then an extreme zoom flies through it and the site appears. Skip button, `?nosplash` to bypass, CSS failsafe after 6s, off for reduced motion.
 - Live-site sections: hero stat tags, Attention / Performance / Growth pillars, "Not just another agency" cards, "Brands we've grown" wall, "Certified. Verified. Trusted." badges, Founders & team, client testimonials slider, WhatsApp button. Animated aurora shading behind badges and team.
 - Every service page: overview, ideal-for, 6-step timeline that lights up as you scroll, monthly deliverables, KPIs reported, tools.
@@ -28,13 +29,13 @@ Visual design from vsm-growth-2 (paper / ink / dark sections, Manrope + DM Mono 
 - Custom cursor (desktop): grows on links, becomes a "View / Next / Talk / Map" disc on cards.
 - Magnetic buttons, 3D-tilt project cards with cursor-following shapes, reels play on hover once files exist.
 - Work filters animate with GSAP Flip. Service rows show a floating tag card that follows the cursor.
-- Client marquee that speeds up and skews with scroll velocity. Count-up stats. Word-by-word heading reveals.
+- Client marquee that speeds up with scroll velocity (no skew, to stay crisp). Count-up stats. Word-by-word heading reveals.
 - Process line draws as you scroll. Pricing cards have a cursor spotlight. Header hides on scroll down; reading progress bar.
 - Google reviews rotate in the quote stage (with prev/next) once the Places key is set.
 - View transitions between pages. Everything respects prefers-reduced-motion.
 
-## Pages (50)
-`/` · `/work/` + 4 case studies · `/services/` + 6 service pages + 30 sub-service pages at `/services/<service>/<topic>/` (every tag links to its own page: what's included, who it's for, steps, FAQ, related) (video production is part of Social Media Marketing; old /services/video-production/ 301-redirects there) (deliverables, process, FAQ, proof, Service + FAQ schema) · `/studio/` · `/journal/` · `/contact/` (prefills from `?service=` `?plan=` `?industry=`) · privacy · terms · refunds · 404
+## Pages (54)
+`/` · `/work/` + 4 case studies · `/services/` + 6 service pages + 30 sub-service pages at `/services/<service>/<topic>/` (every tag links to its own page: what's included, who it's for, steps, FAQ, related) (video production is part of Social Media Marketing; old /services/video-production/ 301-redirects there) (deliverables, process, FAQ, proof, Service + FAQ schema) · `/studio/` · `/journal/` · `/contact/` (prefills from `?service=` `?plan=` `?industry=`) · 4 city pages `/digital-marketing-agency-{meerut,noida,ghaziabad,delhi}/` · privacy · terms · refunds · 404
 
 ## Run locally
     npm install
@@ -43,7 +44,14 @@ Visual design from vsm-growth-2 (paper / ink / dark sections, Manrope + DM Mono 
     npm run build             # astro check + static build to /dist
     npm run preview           # Cloudflare Pages locally, including /api/lead
 
-## Deploy to Cloudflare Pages
+## Deploy to Vercel (services)
+`vercel.json` defines two services in one project:
+- `app` (repo root, Astro) → public at `/`. Pages are prerendered; `POST /api/lead` runs as a Vercel Function (the adapter and route are added only when `VERCEL` is set at build time).
+- `studio` (`sanity/`, Sanity Studio) → public at `/admin/` (basePath `/admin`).
+No bindings: neither service calls the other at runtime. The site reads Sanity's hosted API at build time (`SANITY_PROJECT_ID`), not the Studio.
+Env vars: `PUBLIC_*`, `SANITY_*`, `ZOHO_*`, `LEAD_WEBHOOK_URL` for `app`; `SANITY_STUDIO_PROJECT_ID` for `studio`. Add `https://vsmgrowth.com` to Sanity CORS origins (with credentials) so Studio login works. Local: `vercel dev`.
+
+## Deploy to Cloudflare Pages (alternative)
 1. Push this folder to GitHub.
 2. Cloudflare dashboard > Workers & Pages > Create > Pages > connect the repo.
    Build command `npm run build`, output `dist`, Node 22.
@@ -74,7 +82,7 @@ Put files in `public/media/` with these names; missing files keep the designed p
 - Team photo (4:5 JPG): `team.jpg`
 - Logos (SVG): `logos/dough-and-pan.svg`, `janta-timbers.svg`, `taruvan.svg`, `trackonn.svg`, `rkgit.svg`, `oram.svg`, `khanna-opticians.svg`, `sight-care.svg`, `millennium-kids.svg`, `vertex.svg`, `attraqtive.svg`, `script-aura.svg`
 - Social share image: `public/og-image.jpg` (1200×630)
-- Logo: `public/vsm-marketing-logo.png` (210×106). Replace with an SVG for sharp rendering.
+- Logo: `public/vsm-logo.svg` (traced vector, used in splash/header/footer); PNG exports `vsm-logo-512/192.png`, `apple-touch-icon.png`.
 
 ## Google reviews
 Set `PUBLIC_GOOGLE_PLACE_ID` and `PUBLIC_GOOGLE_PLACES_KEY` (Places API New, key restricted to `https://vsmgrowth.com/*`). Without them the section links to the Google listing.
