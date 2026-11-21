@@ -1,0 +1,21 @@
+---
+/** Competitor-analysis chat. mode="inline" sits in a page section; mode="drawer" is the global pop-up opened by [data-chat-open]. */
+interface Props { mode?: 'inline' | 'drawer' }
+const { mode = 'inline' } = Astro.props;
+---
+<div class:list={['bot', `bot-${mode}`]} data-chat={mode} data-lenis-prevent role={mode === 'drawer' ? 'dialog' : 'region'} aria-label="VSM assistant" aria-modal={mode === 'drawer' ? 'true' : undefined} hidden={mode === 'drawer'}>
+  <header class="bot-head">
+    <span class="bot-avatar" aria-hidden="true"><img src="/vsm-logo.svg" alt="" width="34" height="17" /></span>
+    <div><b>VSM assistant</b><small><i class="live-dot"></i>Online now</small></div>
+    <button class="bot-restart" type="button" data-chat-restart aria-label="Start over">↺</button>
+    {mode === 'drawer' && <button class="bot-close" type="button" data-chat-close aria-label="Close chat">✕</button>}
+  </header>
+  <div class="bot-log" aria-live="polite" data-lenis-prevent></div>
+  <div class="bot-chips" role="group" aria-label="Quick replies"></div>
+  <form class="bot-input" autocomplete="on">
+    <input type="text" name="msg" placeholder="Ask a question…" aria-label="Your answer" maxlength="240" />
+    <input type="text" name="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <button type="submit" aria-label="Send">↑</button>
+  </form>
+  <p class="bot-note">Answers come from our website. For anything specific, our team replies on WhatsApp.</p>
+</div>

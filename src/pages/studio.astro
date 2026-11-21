@@ -5,6 +5,7 @@ import Approach from '../components/Approach.astro';
 import ContactBand from '../components/ContactBand.astro';
 import Marquee from '../components/Marquee.astro';
 import Team from '../components/Team.astro';
+import Gallery from '../components/Gallery.astro';
 import Certified from '../components/Certified.astro';
 import Different from '../components/Different.astro';
 import { getSite } from '../lib/content';
@@ -27,6 +28,7 @@ const s = await getSite();
     {s.stats.map((x) => <div class="proof-item"><strong data-count>{x.value}</strong><span>{x.label}</span></div>)}
   </section>
   <Team />
+  <Gallery />
   <Different />
   <Certified />
   <section class="dark section-pad">

@@ -1,0 +1,20 @@
+---
+import CompetitorBot from './CompetitorBot.astro';
+const checks = [
+  ['Content', 'Posting rhythm, the reels that pull views, and the hooks they use.'],
+  ['Ads', 'What they run in Meta Ad Library and Google: offers, formats, creatives.'],
+  ['Google Maps', 'Who ranks for your category nearby, and how their reviews compare.'],
+  ['Profile', 'Bio, highlights, links, WhatsApp and how fast they reply.'],
+];
+---
+<section class="compete section-pad" id="competitor-analysis" aria-labelledby="compete-h">
+  <div class="compete-copy">
+    <p class="eyebrow">Free competitor analysis</p>
+    <h2 class="big-h split" id="compete-h">See what your competitors<br><em>do better.</em></h2>
+    <p class="large-copy">Tap “Free competitor analysis”, answer five quick questions and get a first read in under a minute, plus the full side-by-side report free on WhatsApp. Or just ask the assistant anything about our services and pricing.</p>
+    <ul class="compete-checks">
+      {checks.map(([t, d]) => <li><b>{t}</b><span>{d}</span></li>)}
+    </ul>
+  </div>
+  <CompetitorBot mode="inline" />
+</section>

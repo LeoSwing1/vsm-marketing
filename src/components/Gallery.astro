@@ -1,0 +1,13 @@
+---
+import { gallery } from '../content/extra';
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
+---
+<section class:list={['gallery-section section-pad', { dark }]} aria-labelledby="inside-vsm">
+  <div class="section-heading"><div><p class="eyebrow">Inside VSM</p><h2 class="big-h split" id="inside-vsm">Real team. <em>Real studio.</em></h2></div><p class="muted" style="max-width:360px">Our Meerut headquarters and Noida branch, where every reel, ad and website is made in-house.</p></div>
+  <div class="gallery-grid">
+    {gallery.map((g) => (
+      <figure class="gallery-item media" data-src={`/media/${g.file}`} data-alt={g.alt}><figcaption>{g.alt}</figcaption></figure>
+    ))}
+  </div>
+</section>

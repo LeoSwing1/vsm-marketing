@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Splash from '../components/Splash.astro';
 import WhatsAppFab from '../components/WhatsAppFab.astro';
+import CompetitorBot from '../components/CompetitorBot.astro';
 import { getSite } from '../lib/content';
 
 interface Props { title: string; description: string; image?: string; schema?: object; home?: boolean }
@@ -101,8 +102,9 @@ const noindex = Astro.url.pathname.startsWith('/404');
   <main id="main" transition:name="main">
     <slot />
   </main>
-  <Footer />
+  <Footer map={home} />
   <WhatsAppFab />
+  <CompetitorBot mode="drawer" />
   <script>import '../scripts/main';</script>
 </body>
 </html>

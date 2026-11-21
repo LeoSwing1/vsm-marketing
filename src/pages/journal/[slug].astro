@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubHero from '../../components/SubHero.astro';
+import NotesFromStudio from '../../components/NotesFromStudio.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import { notes, fmtDate, type Note } from '../../content/notes';
+
+export function getStaticPaths() { return notes.map((n) => ({ params: { slug: n.slug }, props: { n } })); }
+interface Props { n: Note }
+const { n } = Astro.props;
+const schema = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: n.title, description: n.dek, datePublished: n.date, dateModified: n.date,
+  author: { '@type': 'Organization', name: 'VSM Marketing', url: 'https://vsmgrowth.com/' }, publisher: { '@id': 'https://vsmgrowth.com/#org' },
+  image: 'https://vsmgrowth.com/og-image.jpg', mainEntityOfPage: `https://vsmgrowth.com/journal/${n.slug}/`, articleSection: n.tag };
+---
+<Base title={`${n.title} | VSM Journal`} description={n.dek} schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Journal', href: '/journal/' }, { label: n.tag }]} lead={n.dek}>{n.title}</SubHero>
+  <article class="note-article section-pad">
+    <p class="note-meta">{n.tag} · {fmtDate(n.date)} · {n.read} read · VSM Marketing</p>
+    {n.body.map((b) => (
+      <>
+        {b.h && <h2>{b.h}</h2>}
+        {b.p && <p>{b.p}</p>}
+        {b.list && <ul>{b.list.map((li) => <li>{li}</li>)}</ul>}
+      </>
+    ))}
+    <div class="note-cta">
+      <p>Want this done for your brand? Start with a free competitor check.</p>
+      <a class="pill-button magnetic" href="/#competitor-analysis" data-track="note_cta">Run the free check <i>↗</i></a>
+    </div>
+  </article>
+  <NotesFromStudio />
+  <ContactBand n="—" />
+</Base>

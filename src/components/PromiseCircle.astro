@@ -1,0 +1,35 @@
+---
+import { promise } from '../content/extra';
+const n = promise.length;
+const pos = promise.map((_, i) => {
+  const a = (-90 + (360 / n) * i) * (Math.PI / 180);
+  return { x: 50 + 50 * Math.cos(a), y: 50 + 50 * Math.sin(a) };
+});
+---
+<section class="promise dark section-pad" aria-labelledby="promise-h" data-promise>
+  <div class="promise-copy">
+    <p class="eyebrow">The VSM promise</p>
+    <h2 class="big-h split" id="promise-h">Ten things you get<br><em>with every plan.</em></h2>
+    <p class="muted">No add-on menus, no surprise invoices. This is how we work with every client, whatever the size of the account.</p>
+    <a class="pill-button light magnetic" href="/contact/?service=Free%20audit" data-track="promise_cta">Get a free audit <i>↗</i></a>
+  </div>
+  <div class="promise-stage">
+    <svg class="promise-ring" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="50" class="ring-base" />
+      <circle cx="50" cy="50" r="50" class="ring-draw" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" />
+      <circle cx="50" cy="50" r="50" class="ring-progress" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+    </svg>
+    <ol class="promise-nodes">
+      {promise.map((t, i) => (
+        <li class="promise-node" style={`left:${pos[i].x.toFixed(3)}%;top:${pos[i].y.toFixed(3)}%`}>
+          <button type="button" data-i={i} aria-label={t}><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span></button>
+        </li>
+      ))}
+    </ol>
+    <div class="promise-center" aria-live="polite">
+      <span class="promise-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" /></svg></span>
+      <p class="promise-count"><b>01</b> / {String(n).padStart(2, '0')}</p>
+      <p class="promise-text">{promise[0]}</p>
+    </div>
+  </div>
+</section>

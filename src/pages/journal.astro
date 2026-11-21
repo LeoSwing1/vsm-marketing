@@ -1,24 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import SubHero from '../components/SubHero.astro';
+import NotesFromStudio from '../components/NotesFromStudio.astro';
 import ContactBand from '../components/ContactBand.astro';
-import { getSite } from '../lib/content';
-const s = await getSite();
+import { notes } from '../content/notes';
+const schema = { '@context': 'https://schema.org', '@type': 'Blog', name: 'Notes from the studio — VSM Marketing', url: 'https://vsmgrowth.com/journal/', publisher: { '@id': 'https://vsmgrowth.com/#org' },
+  blogPost: notes.map((n) => ({ '@type': 'BlogPosting', headline: n.title, url: `https://vsmgrowth.com/journal/${n.slug}/`, datePublished: n.date })) };
 ---
-<Base title="Digital Marketing Insights | VSM Journal" description="Practical notes from VSM Marketing on reels, local SEO, Meta Ads and growing a local brand in Meerut, Noida and Delhi NCR.">
-  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Journal' }]} lead="Practical notes on reels, local search, ads and growing a local brand.">Ideas for<br><em>what's next.</em></SubHero>
-  <section class="section-pad">
-    <div class="journal-empty">
-      <span>01 / First issue in the works</span>
-      <h2 class="split">Insights worth<br>your <em>attention.</em></h2>
-      <p class="muted">Until then, we post what's working right now on Instagram.</p>
-      <a class="pill-button magnetic" href={s.instagram} target="_blank" rel="noopener">Follow @vsmmarketing_ <i>↗</i></a>
-      <div class="topics">
-        <div><b>Reels that sell</b><p class="muted">Hooks, formats and scripts that turn views into walk-ins.</p></div>
-        <div><b>Local SEO</b><p class="muted">Getting found on Google Maps for "near me" searches.</p></div>
-        <div><b>Ads on a local budget</b><p class="muted">Meta and Google Ads that pay for themselves in your city.</p></div>
-      </div>
-    </div>
-  </section>
+<Base title="Notes from the Studio | VSM Marketing Journal" description="Practical notes from VSM Marketing on reels, Google Maps ranking, Meta Ads and growing a local brand in Meerut, Noida and Delhi NCR." schema={schema}>
+  <SubHero crumb={[{ label: 'Home', href: '/' }, { label: 'Journal' }]} lead="Short, practical notes from our team on reels, local search, ads and growing a local brand.">Notes from<br><em>the studio.</em></SubHero>
+  <NotesFromStudio limit={99} heading={false} />
   <ContactBand n="—" />
 </Base>

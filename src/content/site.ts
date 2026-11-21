@@ -9,6 +9,8 @@ export interface CaseStudy {
   stats: Stat[]; services: string[];
   challenge: string; approach: string[]; outcome: string;
   reels: string[];
+  /** Optional cover photo (file in public/media/), shown behind the case art. */
+  cover?: string;
 }
 export interface Service {
   id: string; slug: string; n: string; name: string; short: string; desc: string; line: string; tags: string[];
@@ -78,7 +80,7 @@ export const site: Site = {
       reels: ['quivira-1.mp4', 'quivira-2.mp4', 'quivira-3.mp4'],
     },
     {
-      slug: 'kq-salon-academy', client: 'KQ Salon & Academy', sector: 'Bridal salon and beauty academy', city: 'Meerut', category: 'Lead generation', tone: 'pink',
+      slug: 'kq-salon-academy', cover: 'office/bridal-jewellery-shoot.webp', client: 'KQ Salon & Academy', sector: 'Bridal salon and beauty academy', city: 'Meerut', category: 'Lead generation', tone: 'pink',
       result: '200+ leads a month · ₹18 cost per lead',
       stats: [{ value: '200+', label: 'leads a month' }, { value: '₹18', label: 'cost per lead' }, { value: '3×', label: 'course enrolments' }],
       services: ['Lead generation', 'Meta Ads', 'Dual funnel'],

@@ -1,4 +1,6 @@
 import { initMotion, heroIntro } from './motion';
+import { initPromise } from './promise';
+import { initChat } from './chatbot';
 import { initInteractions } from './interactions';
 import { initMedia } from './media';
 import { initReviews } from './reviews';
@@ -45,6 +47,8 @@ async function init() {
   bindTracking(); pageView();
   initMedia(); initLeadForm();
   cleanups.push(initInteractions());
+  cleanups.push(initPromise());
+  cleanups.push(initChat());
   initReviews().then((off) => cleanups.push(off));
   const hero = await heroP;
   if (splashing) hero?.gather();

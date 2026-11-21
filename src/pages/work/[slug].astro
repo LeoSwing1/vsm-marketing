@@ -20,6 +20,7 @@ const schema = { '@context': 'https://schema.org', '@type': 'Article', headline:
   </section>
   <div class={`project-${c.tone}`} style="padding-top:5vw">
     <div class="project-art case-art" data-tilt data-video={media(c.reels[0])}>
+      {c.cover && <img class="case-cover" src={media(c.cover)} alt={`${c.client}: ${c.sector}`} loading="eager" decoding="async" />}
       <span class="project-index">Case study / 0{i + 1}</span>
       <div class={`art-shape shape-${c.tone}`} style="width:32%"></div>
       <span class="art-caption">VSM® / {c.category.toUpperCase()}</span>

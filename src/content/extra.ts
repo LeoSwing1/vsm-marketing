@@ -45,10 +45,36 @@ export const team = [
 export const testimonials = [
   { quote: 'VSM Marketing ne mere business ko completely transform kar diya. Pehle monthly sales ₹2–3 lakh thi, ab ₹8–10 lakh tak aa gayi.', name: 'Rohit Sharma', role: 'Owner — Sharma Electronics, Delhi', initials: 'RS' },
   { quote: 'VSM turned our Instagram into a booking machine. Brides now find us online and book our bridal packages months in advance.', name: 'KQ Salon Team', role: 'Bridal & Beauty — Meerut', initials: 'KQ', href: '/work/kq-salon-academy/' },
+  { quote: 'VSM ne gym membership 3× increase kar di sirf 90 dinon mein. Proper funnel aur local targeting se genuine members aaye.', name: 'Sandeep Chauhan', role: 'Owner — Fitness Hub Gym, Delhi NCR', initials: 'SC' },
   { quote: 'Boutique pehle sirf offline tha, VSM ne online orders start karwa diye. Ab all-India orders aa rahe hain.', name: 'Neha Kapoor', role: 'Owner — NK Boutique, Meerut', initials: 'NK' },
 ];
 
 /** "Trusted by" wall, as on the live site, plus other VSM clients. */
+/**
+ * Office, team and shoot photos from the live vsmgrowth.com (public/media/office/).
+ * Add more by dropping a file there and listing it here; a missing file is simply skipped.
+ */
+export const gallery = [
+  { file: 'office/production-floor.webp', alt: 'Production floor at the VSM Meerut office' },
+  { file: 'office/bridal-jewellery-shoot.webp', alt: 'Bridal jewellery shoot for KQ Salon' },
+  { file: 'office/client-consultation.webp', alt: 'Client consultation at VSM Marketing' },
+  { file: 'office/employee-of-the-month.webp', alt: 'Employee of the Month award at VSM Scholars' },
+];
+
+/** The VSM promise, shown one by one around a circle on the homepage. */
+export const promise = [
+  'Everything created by our in-house team',
+  'Custom designs for every brand',
+  'Weekly reports with ROAS, leads & real revenue impact',
+  'Same-day response, usually within hours',
+  'Full video production: shoot, edit, publish',
+  'Unlimited revisions included',
+  'Dedicated team per client',
+  'Month-to-month, cancel anytime',
+  '8+ industries with proven playbooks',
+  'Every decision backed by platform data',
+];
+
 export const brands = [
   'KQ Salon', 'Sharma Electronics', 'Fitness Hub Gym', 'NK Boutique', 'Millennium Kids School', 'AV Builders',
   'Hotel Quivira', 'Pushpdeep Collection', 'Deesha Couture', 'Trackonn India', 'Janta Timbers', 'Dough & Pan',

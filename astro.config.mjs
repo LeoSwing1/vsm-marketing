@@ -3,11 +3,11 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 // Pages are prerendered either way. On Vercel (VERCEL=1 during the build) the adapter is added and
-// POST /api/lead runs as a Vercel Function; on Cloudflare Pages the same handler runs from /functions.
+// POST /api/lead and /api/chat run as Vercel Functions; on Cloudflare Pages the same handler runs from /functions.
 const onVercel = !!process.env.VERCEL;
 const leadApi = {
   name: 'vsm-lead-api',
-  hooks: { 'astro:config:setup': ({ injectRoute }) => { if (onVercel) injectRoute({ pattern: '/api/lead', entrypoint: './src/server/lead-route.ts', prerender: false }); } },
+  hooks: { 'astro:config:setup': ({ injectRoute }) => { if (onVercel) { injectRoute({ pattern: '/api/lead', entrypoint: './src/server/lead-route.ts', prerender: false }); injectRoute({ pattern: '/api/chat', entrypoint: './src/server/chat-route.ts', prerender: false }); } } },
 };
 
 export default defineConfig({

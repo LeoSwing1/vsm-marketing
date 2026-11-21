@@ -1,0 +1,22 @@
+---
+import { notes, fmtDate } from '../content/notes';
+interface Props { limit?: number; heading?: boolean }
+const { limit = 3, heading = true } = Astro.props;
+const list = [...notes].sort((a, b) => b.date.localeCompare(a.date)).slice(0, limit);
+---
+<section class="notes section-pad" aria-labelledby={heading ? 'notes-h' : undefined}>
+  {heading && (
+    <div class="section-heading"><div><p class="eyebrow">Notes from the studio</p><h2 class="big-h split" id="notes-h">What's working<br><em>right now.</em></h2></div><a class="under-link" href="/journal/">All notes <i>↗</i></a></div>
+  )}
+  <div class="notes-grid">
+    {list.map((n, i) => (
+      <a class="note-card" href={`/journal/${n.slug}/`} data-cursor="Read">
+        <div class="note-top"><span class="note-tag">{n.tag}</span><span class="note-meta">{fmtDate(n.date)} · {n.read}</span></div>
+        <h3>{n.title}</h3>
+        <p>{n.dek}</p>
+        <span class="note-more">Read the note <i>↗</i></span>
+        <span class="note-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      </a>
+    ))}
+  </div>
+</section>

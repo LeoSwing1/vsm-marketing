@@ -6,6 +6,7 @@ const { c, i } = Astro.props;
 ---
 <a class={`project-card project-${c.tone}`} href={`/work/${c.slug}/`} data-category={c.category.toLowerCase()} data-cursor="View">
   <div class="project-art" data-tilt data-video={media(c.reels[0])}>
+    {c.cover && <img class="case-cover" src={media(c.cover)} alt="" loading="lazy" decoding="async" />}
     <span class="project-index">Selected project / 0{i + 1}</span>
     <div class={`art-shape shape-${c.tone}`}></div>
     <span class="project-arrow" aria-hidden="true">↗</span>

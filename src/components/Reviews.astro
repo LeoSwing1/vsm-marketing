@@ -29,7 +29,7 @@ const row2: Card[] = [results[2], quotes[2], results[3], quotes[0], quotes[1]];
             <figure class="rx-card" aria-hidden={dup ? 'true' : undefined}>
               <span class="rx-cardstars" aria-hidden="true">★★★★★</span>
               <blockquote>“{c.quote}”</blockquote>
-              <figcaption><span class="t-av">{c.initials}</span><span><b>{c.name}</b><small>{c.role}</small></span></figcaption>
+              <figcaption><span class="t-av">{c.initials}</span><span><b>{c.name}</b><small>{c.role}</small><em class="t-verified">✓ Verified client</em></span></figcaption>
             </figure>
           ) : (
             <a class="rx-card rx-result" href={c.href} aria-hidden={dup ? 'true' : undefined} tabindex={dup ? -1 : undefined} data-cursor="View">

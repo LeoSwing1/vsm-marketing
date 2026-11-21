@@ -32,7 +32,8 @@ export function initMedia(): void {
     if (!e.isIntersecting) return;
     io.unobserve(e.target); load(e.target as HTMLElement);
   }), { rootMargin: '300px' });
-  slots.forEach((s) => io.observe(s));
+  // gallery items stay hidden until their photo exists, so they can't be observed: load those directly
+  slots.forEach((s) => (s.classList.contains('gallery-item') ? load(s) : io.observe(s)));
 
   document.querySelectorAll<HTMLElement>('[data-logo]').forEach((li) => {
     const img = new Image();

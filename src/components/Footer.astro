@@ -1,6 +1,9 @@
 ---
 import { getSite } from '../lib/content';
+interface Props { map?: boolean }
+const { map = false } = Astro.props;
 const s = await getSite();
+const hq = s.offices[0];
 ---
 <footer class="footer">
   <div class="footer-top">
@@ -8,6 +11,17 @@ const s = await getSite();
     <h2 class="split">Let's make<br><em>something move.</em></h2>
     <a class="round-link magnetic" href="/contact/" aria-label="Contact VSM" data-cursor="Talk">↗</a>
   </div>
+  {map && (
+    <div class="footer-map">
+      <div class="footer-map-frame"><iframe title="VSM Marketing headquarters on Google Maps" src={`https://www.google.com/maps?q=${encodeURIComponent('VSM Marketing, ' + hq.lines.join(', '))}&output=embed`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <div class="footer-map-meta">
+        <p class="eyebrow">Find us</p>
+        {s.offices.map((o) => <p><b>{o.city} · {o.label}</b><br />{o.lines.join(', ')}</p>)}
+        <p class="muted">{s.hours}</p>
+        <div class="footer-map-links"><a href={s.gmb} target="_blank" rel="noopener" data-track="gmb_open">Google Business Profile ↗</a><a href={hq.maps} target="_blank" rel="noopener" data-track="directions">Directions ↗</a></div>
+      </div>
+    </div>
+  )}
   <div class="footer-bottom">
     <a class="wordmark" href="/" aria-label="VSM Marketing, home"><img src="/vsm-logo.svg" alt="VSM Marketing" width="210" height="106" loading="lazy" /></a>
     <p>Digital marketing, creative and growth.<br>{s.offices.map((o) => `${o.city} ${o.label.toLowerCase()}`).join(' · ')}<br>Serving brands across India.</p>
