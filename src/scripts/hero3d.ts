@@ -159,21 +159,26 @@ export async function createHero3D(host: HTMLElement, reduce: boolean, opts: { h
   const hero = host.closest('.hero') ?? host;
   hero.addEventListener('pointerdown', burst as EventListener);
 
+  let last = performance.now();
   // particles start spread across the whole hero and collect into "VSM" when gather() runs
   let intro = !reduce;
   u.uScatter.value = reduce ? 0 : 0.75;
   let gathered = false;
+  // While the splash plays (hold), the scene is built and its shaders compiled up front, but the loop stays idle,
+  // so the GPU is free for the splash zoom. gather() wakes it.
+  let live = !opts.hold;
   const gather = () => {
-    if (gathered) return; gathered = true;
+    if (gathered) return; gathered = true; live = true; last = performance.now();
     if (reduce) { u.uScatter.value = 0; intro = false; return; }
     gsap.to(u.uScatter, { value: 0, duration: 2.6, ease: 'power3.inOut', onComplete: () => { intro = false; } });
     gsap.fromTo(word.rotation, { y: -1.2 }, { y: 0, duration: 3.2, ease: 'expo.out' });
   };
   if (!opts.hold) gather();
 
+  if (opts.hold) { renderer.compile(scene, camera); renderer.render(scene, camera); }
+
   let visibleOnScreen = true;
   const io = new IntersectionObserver(([e]) => { visibleOnScreen = e.isIntersecting; }); io.observe(host);
-  let last = performance.now();
 
   // adaptive quality: if the first ~2s run slow, lower resolution and particle count once
   let frames = 0, slowTime = 0, tuned = false;
@@ -184,7 +189,7 @@ export async function createHero3D(host: HTMLElement, reduce: boolean, opts: { h
   };
 
   renderer.setAnimationLoop((now: number) => {
-    if (!visibleOnScreen || document.hidden) { last = now; return; }
+    if (!live || !visibleOnScreen || document.hidden) { last = now; return; }
     const raw = now - last;
     const dt = Math.min(0.05, raw / 1000); last = now;
     if (!tuned && frames < 120) { frames++; if (frames > 20) slowTime += raw; if (frames === 120 && slowTime / 100 > 24) tune(); }

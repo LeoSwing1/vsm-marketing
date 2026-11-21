@@ -1,4 +1,4 @@
-import { initMotion } from './motion';
+import { initMotion, heroIntro } from './motion';
 import { initInteractions } from './interactions';
 import { initMedia } from './media';
 import { initReviews } from './reviews';
@@ -34,14 +34,21 @@ async function init() {
   const splashing = first && document.documentElement.classList.contains('splash');
   const heroP = mountHero(splashing);
   const lenis = initSmooth();
-  if (first) { first = false; lenis?.stop(); await runSplash(); lenis?.start(); }
+  // After a splash, the hero entrance and the particle gather start on the reveal itself, not after the splash UI is gone.
+  const intro = splashing ? heroIntro() : null;
+  if (first) {
+    first = false; lenis?.stop();
+    // particles wake once the zoom has passed through, so the last frames of the zoom don't share the GPU
+    await runSplash(heroP, () => { intro?.play(); setTimeout(() => void heroP.then((h) => h?.gather()), 380); });
+    lenis?.start();
+  }
   bindTracking(); pageView();
   initMedia(); initLeadForm();
   cleanups.push(initInteractions());
   initReviews().then((off) => cleanups.push(off));
   const hero = await heroP;
   if (splashing) hero?.gather();
-  cleanups.push(initMotion({ onHeroScroll: (p) => hero?.setScroll(p) }));
+  cleanups.push(initMotion({ onHeroScroll: (p) => hero?.setScroll(p), skipHeroIntro: !!intro }));
 }
 
 document.addEventListener('astro:page-load', () => { void init(); });

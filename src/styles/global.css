@@ -420,7 +420,8 @@ html.splash body { overflow: hidden; }
 html.splash .splash-ui { display: grid; position: fixed; inset: 0; z-index: 200; background: var(--dark); color: #8f8e85; place-items: center; animation: splash-failsafe .6s ease 6s forwards; }
 @keyframes splash-failsafe { to { opacity: 0; visibility: hidden; } }
 .splash-stage { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
-.splash-logo { width: min(300px, 62vw); height: auto; overflow: visible; transform-origin: 50% 45%; }
+.splash-logo { grid-area: 1 / 1; width: min(300px, 62vw); height: auto; overflow: visible; transform-origin: 50% 45%; backface-visibility: hidden; }
+.splash-bitmap { will-change: transform, opacity; }
 .splash-stage::before { content: ""; position: absolute; width: 60vmin; height: 60vmin; border-radius: 50%; background: radial-gradient(circle, rgba(166, 199, 124, .18), transparent 65%); }
 .splash-meta { position: absolute; left: 5vw; right: 5vw; bottom: 6vh; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; font: 11px var(--mono); letter-spacing: .12em; }
 .splash-count { font: 500 14px var(--mono); color: var(--paper); min-width: 3ch; }

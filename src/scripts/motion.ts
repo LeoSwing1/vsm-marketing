@@ -37,20 +37,34 @@ function countUp(el: HTMLElement): gsap.core.Tween | null {
   return gsap.to(o, { v: end, duration: 1.6, ease: 'power3.out', paused: true, onUpdate: () => { el.textContent = pre + o.v.toFixed(dec) + post; }, onComplete: () => { el.textContent = text; } });
 }
 
-export function initMotion(opts: { onHeroScroll?: (p: number) => void } = {}): () => void {
+/**
+ * Hero entrance as a paused timeline. Building it applies the hidden "from" state immediately, so after a splash
+ * the hero can sit primed behind it and play at the exact moment of the reveal (no full-then-hidden flash).
+ */
+export function heroIntro(): gsap.core.Timeline {
+  const tl = gsap.timeline({ paused: true });
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return tl;
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const ht = document.querySelector<HTMLElement>('[data-hero-title]');
+  if (ht) tl.from(split(ht), { yPercent: 115, rotate: 4, duration: 1.3, ease: 'expo.out', stagger: 0.07, immediateRender: true }, 0.1);
+  if (hero) {
+    const rest = hero.querySelectorAll('.eyebrow, .hero-bottom > *, .hero-foot');
+    if (rest.length) tl.from(rest, { y: 24, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.08, immediateRender: true }, 0.5);
+    const vis = hero.querySelector('.hero-visual');
+    if (vis) tl.from(vis, { scale: 0.85, opacity: 0, duration: 1.8, ease: 'expo.out', immediateRender: true }, 0.2);
+  }
+  return tl;
+}
+
+export function initMotion(opts: { onHeroScroll?: (p: number) => void; skipHeroIntro?: boolean } = {}): () => void {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ctx = gsap.context(() => {
     const hero = document.querySelector<HTMLElement>('.hero');
     if (hero) ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (s) => opts.onHeroScroll?.(s.progress) });
     if (reduce) return;
 
-    // hero title on load
-    const ht = document.querySelector<HTMLElement>('[data-hero-title]');
-    if (ht) gsap.from(split(ht), { yPercent: 115, rotate: 4, duration: 1.3, ease: 'expo.out', stagger: 0.07, delay: 0.1 });
-    if (hero) {
-      gsap.from(hero.querySelectorAll('.eyebrow, .hero-bottom > *, .hero-foot'), { y: 24, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.08, delay: 0.5 });
-      gsap.from(hero.querySelector('.hero-visual'), { scale: 0.85, opacity: 0, duration: 1.8, ease: 'expo.out', delay: 0.2 });
-    }
+    // hero title on load (after a splash, heroIntro() already ran it at the reveal)
+    if (!opts.skipHeroIntro) heroIntro().play();
 
     // headings
     gsap.utils.toArray<HTMLElement>('.split:not([data-hero-title])').forEach((h) => {
